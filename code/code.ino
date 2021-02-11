@@ -33,7 +33,7 @@
 // Jsumo's micro-start
 #define microST 2
 /*******PINOUT DEFINES - END*********/
- 
+
 /*******FUNCTIONS*******/
 void MotorL(int pwm); // motor esquerdo
 void MotorR(int pwm); // motor direito
@@ -115,7 +115,6 @@ int encontrou_linha(int &dir, int &esq)
 void loop() {
 
   // Qual o sinal inicial do microST? O botão seta ele constantemente para HIGH? 
-  
   while(digitalRead(microST))
   {
     
@@ -123,6 +122,7 @@ void loop() {
  
 }
  
+
 /**LEFT MOTOR CONTROL / CONTROLE DO MOTOR ESQUERDO / CONTROL DEL MOTOR IZQUIERDO**/
 // pwm = 0 -> stopped / parado / parado
 // 0<pwm<=255 -> forward / para frente / seguir adelante
