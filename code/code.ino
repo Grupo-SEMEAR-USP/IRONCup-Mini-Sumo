@@ -85,7 +85,7 @@ void setup() {
 }
 
 //Gira no sentido horario 
-void girar_Horario_eixo_roda(int pwm) // pwm > 0 Horário | pwm < 0 Anti Horario
+void girar_Horario_eixo_robo(int pwm) // pwm > 0 Horário | pwm < 0 Anti Horario
 {  
   
   if(pwm = 0)
@@ -121,8 +121,28 @@ void loop() {
   }
  
 }
- 
 
+void movimentacao(pwm) // utiliza o pwm para escolher o sentido da movimenção
+{  
+  //fica parado
+  if(pwm=0)
+  {
+    // algo se colocar 0
+  }
+  //movimenta para frente
+  else if(pwm>0) // se pwm for positivo, vai para frente
+  {
+    void MotorR(pwm);
+    void MotorL(pwm);
+  }
+  //movimenta para tras
+  else if(pwm<0) // se pwm for negativo, vai para tras
+  {
+    void MotorR(-pwm);
+    void MotorL(-pwm);
+  }
+}
+ 
 /**LEFT MOTOR CONTROL / CONTROLE DO MOTOR ESQUERDO / CONTROL DEL MOTOR IZQUIERDO**/
 // pwm = 0 -> stopped / parado / parado
 // 0<pwm<=255 -> forward / para frente / seguir adelante
@@ -151,7 +171,6 @@ void MotorL(int pwm){
     digitalWrite(leftMotor2, HIGH);
   }
 }
- 
  
 /**RIGHT MOTOR CONTROL / CONTROLE DO MOTOR DIREITO / CONTROL DEL MOTOR DERECHO**/
 // pwm = 0 -> stopped / parado / parado
