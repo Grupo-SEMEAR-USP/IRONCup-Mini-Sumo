@@ -39,7 +39,9 @@ void MotorL(int pwm); // motor esquerdo
 void MotorR(int pwm); // motor direito
 int readDIP(); //        ler chave DIP
 /*******FUNCTIONS - END*******/
- 
+
+boolean start = false;
+
 void setup() {
  
   /****************PINOUT CONFIG****************/
@@ -55,7 +57,6 @@ void setup() {
   pinMode(pwmL, OUTPUT);        // left motor power
   pinMode(leftMotor1, OUTPUT);  // left motor dir.
   pinMode(leftMotor2, OUTPUT);  // left motor dir.
- 
  
   // INPUTS: DO NOT CHANGE / NAO MUDAR / NO CAMBIAR
   // DIP switch
@@ -81,12 +82,45 @@ void setup() {
   MotorL(0); //              motor esquerdo parado 
   MotorR(0); //              motor direito parado
   /*************INITIAL CONDITIONS - END*************/
-} 
+}
+
+//Gira no sentido horario 
+void girar_Horario_eixo_roda(int pwm) // pwm > 0 Horário | pwm < 0 Anti Horario
+{  
+  
+  if(pwm = 0)
+  {
+    // algo se colocar 0
+
+  }
+  else if(pwm > 0) // se pwm for positivo, roda horario
+  {
+    MotorR(-pwm);
+
+    MotorL(pwm);
+  }
+  else if(pwm<0) // se pwm for negativo, roda anti-horario
+  {
+    MotorR(pwm);
+
+    MotorL(-pwm);   
+  }
+}
+
+int encontrou_linha(int &dir, int &esq)
+{
+  
+}
  
 void loop() {
 
-  bit vet[2];
+  // Qual o sinal inicial do microST? O botão seta ele constantemente para HIGH? 
   
+  while(digitalRead(microST))
+  {
+    
+  }
+ 
 }
  
 /**LEFT MOTOR CONTROL / CONTROLE DO MOTOR ESQUERDO / CONTROL DEL MOTOR IZQUIERDO**/
