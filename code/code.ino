@@ -110,7 +110,6 @@ void girar_Horario_eixo_robo(int pwm) // pwm > 0 Horário | pwm < 0 Anti Horario
 //Gira para esquerda ou direira com eixo da roda
 void girar_eixo_roda(int pwm) // pwm > 0 direita | pwm < 0 esquerda
 {  
-  
   if(pwm = 0)
   {
     // algo se colocar 0
@@ -130,11 +129,12 @@ void girar_eixo_roda(int pwm) // pwm > 0 direita | pwm < 0 esquerda
   }
 }
 
-
-
-int encontrou_linha(int &dir, int &esq)
+//Função que verifica o estado dos sensores de linha 
+int estado_linha(int &direita, int &esquerda)
 {
-  
+  *direita = digitalRead(lineR);
+
+  *esquerda = digitalRead(lineL);
 }
  
 void loop() {
