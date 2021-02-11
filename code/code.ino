@@ -107,6 +107,31 @@ void girar_Horario_eixo_roda(int pwm) // pwm > 0 Horário | pwm < 0 Anti Horario
   }
 }
 
+//Gira para esquerda ou direira com eixo da roda
+void girar_eixo_roda(int pwm) // pwm > 0 direita | pwm < 0 esquerda
+{  
+  
+  if(pwm = 0)
+  {
+    // algo se colocar 0
+
+  }
+  else if(pwm > 0) // se pwm for positivo, vai para direita com motorR fixo
+  {
+    MotorR(0);
+
+    MotorL(pwm);
+  }
+  else if(pwm<0) // se pwm for negativo, vai para direita com motorL fixo
+  {
+    MotorR(pwm);
+
+    MotorL(0);   
+  }
+}
+
+
+
 int encontrou_linha(int &dir, int &esq)
 {
   
