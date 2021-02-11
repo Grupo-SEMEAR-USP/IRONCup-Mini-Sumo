@@ -121,6 +121,26 @@ void loop() {
   }
  
 }
+void movimentacao(pwm) // utiliza o pwm para escolher o sentido da movimenção
+{  
+  //fica parado
+  if(pwm=0)
+  {
+    // algo se colocar 0
+  }
+  //movimenta para frente
+  else if(pwm>0) // se pwm for positivo, vai para frente
+  {
+    void MotorR(pwm);
+    void MotorL(pwm);
+  }
+  //movimenta para tras
+  else if(pwm<0) // se pwm for negativo, vai para tras
+  {
+    void MotorR(-pwm);
+    void MotorL(-pwm);
+  }
+}
  
 
 /**LEFT MOTOR CONTROL / CONTROLE DO MOTOR ESQUERDO / CONTROL DEL MOTOR IZQUIERDO**/
