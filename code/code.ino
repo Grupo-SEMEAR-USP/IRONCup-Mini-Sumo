@@ -87,7 +87,6 @@ void setup() {
 //Gira no sentido horario 
 void girar_Horario_eixo_roda(int pwm) // pwm > 0 Horário | pwm < 0 Anti Horario
 {  
-  
   if(pwm = 0)
   {
     // algo se colocar 0
@@ -96,13 +95,11 @@ void girar_Horario_eixo_roda(int pwm) // pwm > 0 Horário | pwm < 0 Anti Horario
   else if(pwm > 0) // se pwm for positivo, roda horario
   {
     MotorR(-pwm);
-
     MotorL(pwm);
   }
   else if(pwm<0) // se pwm for negativo, roda anti-horario
   {
     MotorR(pwm);
-
     MotorL(-pwm);   
   }
 }
@@ -114,24 +111,21 @@ void girar_eixo_roda(int pwm) // pwm > 0 direita | pwm < 0 esquerda
   if(pwm = 0)
   {
     // algo se colocar 0
-
   }
   else if(pwm > 0) // se pwm for positivo, vai para direita com motorR fixo
   {
     MotorR(0);
-
     MotorL(pwm);
   }
   else if(pwm<0) // se pwm for negativo, vai para direita com motorL fixo
   {
     MotorR(pwm);
-
     MotorL(0);   
   }
 }
 
 
-void trajeto_simples(int pwm, int &dir, int &esq) // < precisa receber &dir e &esq? e se transformar em global?
+void trajeto_simples(int pwm, int &dir, int &esq) // < precisa receber &dir e &esq? e se transformar em var global?
 {
 	encontrou_linha(&dir,&esq)
 	if(*dir || *esq) //caso sensor dir ou esq seja habilitado
@@ -140,31 +134,21 @@ void trajeto_simples(int pwm, int &dir, int &esq) // < precisa receber &dir e &e
 		{
 			//vai para trás um pouco (em função de pwm)
 			//roda sentido anti horario um pouco (em função de pwm)
-			
-			
+			//***atentar para o fato de q a velocidade vai alterar 
+			//***o tempo q precisa para o robo rodar ou ir para traz
+			//***pode se usar um delay inversamente proporcional a velocidade
 		}
 		else if(*esq) //se sensor esquerdo habilitado
 		{
 			//vai para trás (em função de pwm)
 			//roda sentido horario um pouco	(em função de pwm)
-
-		
-		}
-			
+		}	
 	}
 	else //caso nenhum sensor seja habilitado
 	{
-		
 		//vai para frente (em função de pwm)
-		
-		
-		
 	}
-	
-	
-	
-	
-}
+} //fim trajeto_simples
 
 
 
