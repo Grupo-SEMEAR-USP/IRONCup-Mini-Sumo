@@ -131,6 +131,42 @@ void girar_eixo_roda(int pwm) // pwm > 0 direita | pwm < 0 esquerda
 }
 
 
+void trajeto_simples(int pwm, int &dir, int &esq) // < precisa receber &dir e &esq? e se transformar em global?
+{
+	encontrou_linha(&dir,&esq)
+	if(*dir || *esq) //caso sensor dir ou esq seja habilitado
+	{
+		if(*dir) //se sensor direito habilitado
+		{
+			//vai para trás um pouco (em função de pwm)
+			//roda sentido anti horario um pouco (em função de pwm)
+			
+			
+		}
+		else if(*esq) //se sensor esquerdo habilitado
+		{
+			//vai para trás (em função de pwm)
+			//roda sentido horario um pouco	(em função de pwm)
+
+		
+		}
+			
+	}
+	else //caso nenhum sensor seja habilitado
+	{
+		
+		//vai para frente (em função de pwm)
+		
+		
+		
+	}
+	
+	
+	
+	
+}
+
+
 
 int encontrou_linha(int &dir, int &esq)
 {
