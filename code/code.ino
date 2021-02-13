@@ -128,9 +128,14 @@ void girar_eixo_roda(int pwm) // pwm > 0 direita | pwm < 0 esquerda
 
 void trajeto_simples(int pwm, int &dir, int &esq) // < precisa receber &dir e &esq ? e se utilizar var global?
 {
-	estado_linha(&dir,&esq)
-	if(*dir || *esq) //caso sensor dir ou esq seja habilitado
+	while(true)
 	{
+		estado_linha(&dir,&esq)
+		while(!(*dir || *esq)) //enquanto sensor dir e esq forem 0
+		{
+				//vai para frente (em função de pwm)
+				estado_linha(&dir,&esq)
+		}		
 		if(*dir) //se sensor direito habilitado
 		{
 			//vai para trás um pouco (em função de pwm)
@@ -144,10 +149,6 @@ void trajeto_simples(int pwm, int &dir, int &esq) // < precisa receber &dir e &e
 			//vai para trás (em função de pwm)
 			//roda sentido horario um pouco	(em função de pwm)
 		}	
-	}
-	else //caso nenhum sensor seja habilitado
-	{
-		//vai para frente (em função de pwm)
 	}
 } //fim trajeto_simples
 
