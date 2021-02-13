@@ -128,7 +128,7 @@ void girar_eixo_roda(int pwm) // pwm > 0 direita | pwm < 0 esquerda
 
 void trajeto_simples(int pwm, int &dir, int &esq) // < precisa receber &dir e &esq? e se transformar em var global?
 {
-	encontrou_linha(&dir,&esq)
+	estado_linha(&dir,&esq)
 	if(*dir || *esq) //caso sensor dir ou esq seja habilitado
 	{
 		if(*dir) //se sensor direito habilitado
