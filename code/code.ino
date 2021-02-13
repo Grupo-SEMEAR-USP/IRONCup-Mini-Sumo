@@ -136,7 +136,7 @@ void trajeto_simples(int pwm) // < precisa receber &dir e &esq ? e se utilizar v
 		while(!(*dir || *esq)) //enquanto sensor dir e esq forem 0
 		{
 				//vai para frente (em função de pwm)
-				estado_linha(&dir,&esq)
+				estado_linha(&dir,&esq);
 		}		
 		if(*dir) //se sensor direito habilitado
 		{
