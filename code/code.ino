@@ -137,12 +137,12 @@ void estado_linha(int *direita, int *esquerda)
     *(esquerda) = digitalRead(lineL);
 }
 
-//Função que verifica o estado dos sensores de linha 
-void estado_linha(int *direita, int *esquerda)
+//Verifica os sensores de distancia
+void estado_inimigos(int *esquerda, int *direita)
 {
-    *(direita) = digitalRead(lineR);
+    *esquerda = digitalRead(distL);
  
-    *(esquerda) = digitalRead(lineL);
+    *direita = digitalRead(distR);
 }
 
 void loop() {
