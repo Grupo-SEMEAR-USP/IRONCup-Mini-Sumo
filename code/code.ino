@@ -110,7 +110,6 @@ void girar_Horario_eixo_robo(int pwm) // pwm > 0 Horário | pwm < 0 Anti Horario
 //Gira para esquerda ou direira com eixo da roda
 void girar_eixo_roda(int pwm) // pwm > 0 direita | pwm < 0 esquerda
 {  
-  
   if(pwm = 0)
   {
     // algo se colocar 0
@@ -130,11 +129,12 @@ void girar_eixo_roda(int pwm) // pwm > 0 direita | pwm < 0 esquerda
   }
 }
 
-
-
-int encontrou_linha(int &dir, int &esq)
+//Função que verifica o estado dos sensores de linha 
+void estado_linha(int *direita, int *esquerda)
 {
-  
+    *(direita) = digitalRead(lineR);
+ 
+    *(esquerda) = digitalRead(lineL);
 }
  
 void loop() {
@@ -147,7 +147,7 @@ void loop() {
  
 }
 
-void movimentacao(pwm) // utiliza o pwm para escolher o sentido da movimenção
+void movimentacao(int pwm) // utiliza o pwm para escolher o sentido da movimenção
 {  
   //fica parado
   if(pwm=0)
@@ -157,14 +157,14 @@ void movimentacao(pwm) // utiliza o pwm para escolher o sentido da movimenção
   //movimenta para frente
   else if(pwm>0) // se pwm for positivo, vai para frente
   {
-    void MotorR(pwm);
-    void MotorL(pwm);
+    MotorR(pwm);
+    MotorL(pwm);
   }
   //movimenta para tras
   else if(pwm<0) // se pwm for negativo, vai para tras
   {
-    void MotorR(-pwm);
-    void MotorL(-pwm);
+    MotorR(-pwm);
+    MotorL(-pwm);
   }
 }
  
