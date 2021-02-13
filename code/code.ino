@@ -130,11 +130,11 @@ void girar_eixo_roda(int pwm) // pwm > 0 direita | pwm < 0 esquerda
 }
 
 //Função que verifica o estado dos sensores de linha 
-int estado_linha(int &direita, int &esquerda)
+void estado_linha(int *direita, int *esquerda)
 {
-  *direita = digitalRead(lineR);
-
-  *esquerda = digitalRead(lineL);
+    *(direita) = digitalRead(lineR);
+ 
+    *(esquerda) = digitalRead(lineL);
 }
  
 void loop() {
@@ -147,7 +147,7 @@ void loop() {
  
 }
 
-void movimentacao(pwm) // utiliza o pwm para escolher o sentido da movimenção
+void movimentacao(int pwm) // utiliza o pwm para escolher o sentido da movimenção
 {  
   //fica parado
   if(pwm=0)
@@ -157,14 +157,14 @@ void movimentacao(pwm) // utiliza o pwm para escolher o sentido da movimenção
   //movimenta para frente
   else if(pwm>0) // se pwm for positivo, vai para frente
   {
-    void MotorR(pwm);
-    void MotorL(pwm);
+    MotorR(pwm);
+    MotorL(pwm);
   }
   //movimenta para tras
   else if(pwm<0) // se pwm for negativo, vai para tras
   {
-    void MotorR(-pwm);
-    void MotorL(-pwm);
+    MotorR(-pwm);
+    MotorL(-pwm);
   }
 }
  
