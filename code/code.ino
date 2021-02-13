@@ -87,7 +87,6 @@ void setup() {
 //Gira no sentido horario 
 void girar_Horario_eixo_robo(int pwm) // pwm > 0 Horário | pwm < 0 Anti Horario
 {  
-  
   if(pwm = 0)
   {
     // algo se colocar 0
@@ -96,13 +95,11 @@ void girar_Horario_eixo_robo(int pwm) // pwm > 0 Horário | pwm < 0 Anti Horario
   else if(pwm > 0) // se pwm for positivo, roda horario
   {
     MotorR(-pwm);
-
     MotorL(pwm);
   }
   else if(pwm<0) // se pwm for negativo, roda anti-horario
   {
     MotorR(pwm);
-
     MotorL(-pwm);   
   }
 }
@@ -113,21 +110,50 @@ void girar_eixo_roda(int pwm) // pwm > 0 direita | pwm < 0 esquerda
   if(pwm = 0)
   {
     // algo se colocar 0
-
   }
   else if(pwm > 0) // se pwm for positivo, vai para direita com motorR fixo
   {
     MotorR(0);
-
     MotorL(pwm);
   }
   else if(pwm<0) // se pwm for negativo, vai para direita com motorL fixo
   {
     MotorR(pwm);
-
     MotorL(0);   
   }
 }
+
+
+//A função deve receber os sensores dir e esq, não seria mais fácil manter as variáveis de sensor como globais, para acesso/consulta em todas as funções sem precisar recebê-las?
+void trajeto_simples(int pwm) // < precisa receber &dir e &esq ? e se utilizar var global?
+{
+  int dir = 0;
+  int esq = 0;
+  
+	while(true)
+	{
+		estado_linha(&dir,&esq)
+		while(!(*dir || *esq)) //enquanto sensor dir e esq forem 0
+		{
+				//vai para frente (em função de pwm)
+				estado_linha(&dir,&esq);
+		}		
+		if(*dir) //se sensor direito habilitado
+		{
+			//vai para trás um pouco (em função de pwm)
+			//roda sentido anti horario um pouco (em função de pwm)
+			//***atentar para o fato de q a velocidade vai alterar 
+			//***o tempo q precisa para o robo rodar ou ir para traz
+			//***pode se usar um delay inversamente proporcional a velocidade
+		}
+		else if(*esq) //se sensor esquerdo habilitado
+		{
+			//vai para trás (em função de pwm)
+			//roda sentido horario um pouco	(em função de pwm)
+		}	
+	}
+} //fim trajeto_simples
+
 
 //Função que verifica o estado dos sensores de linha 
 void estado_linha(int *direita, int *esquerda)
