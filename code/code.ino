@@ -85,7 +85,7 @@ void setup() {
 }
 
 //Gira no sentido horario 
-void girar_Horario_eixo_roda(int pwm) // pwm > 0 Horário | pwm < 0 Anti Horario
+void girar_Horario_eixo_robo(int pwm) // pwm > 0 Horário | pwm < 0 Anti Horario
 {  
   if(pwm = 0)
   {
@@ -107,7 +107,6 @@ void girar_Horario_eixo_roda(int pwm) // pwm > 0 Horário | pwm < 0 Anti Horario
 //Gira para esquerda ou direira com eixo da roda
 void girar_eixo_roda(int pwm) // pwm > 0 direita | pwm < 0 esquerda
 {  
-  
   if(pwm = 0)
   {
     // algo se colocar 0
@@ -124,10 +123,13 @@ void girar_eixo_roda(int pwm) // pwm > 0 direita | pwm < 0 esquerda
   }
 }
 
-//a função deve receber os sensores dir e esq, não seria mais fácil manter as variáveis de sensor como globais, para acesso/consulta em todas as funções sem precisar recebê-las?
 
-void trajeto_simples(int pwm, int *dir, int *esq) // < precisa receber &dir e &esq ? e se utilizar var global?
+//A função deve receber os sensores dir e esq, não seria mais fácil manter as variáveis de sensor como globais, para acesso/consulta em todas as funções sem precisar recebê-las?
+void trajeto_simples(int pwm) // < precisa receber &dir e &esq ? e se utilizar var global?
 {
+  int dir = 0;
+  int esq = 0;
+  
 	while(true)
 	{
 		estado_linha(&dir,&esq)
@@ -153,10 +155,12 @@ void trajeto_simples(int pwm, int *dir, int *esq) // < precisa receber &dir e &e
 } //fim trajeto_simples
 
 
-
-int encontrou_linha(int &dir, int &esq)
+//Função que verifica o estado dos sensores de linha 
+void estado_linha(int *direita, int *esquerda)
 {
-  
+    *(direita) = digitalRead(lineR);
+ 
+    *(esquerda) = digitalRead(lineL);
 }
  
 void loop() {
@@ -168,8 +172,28 @@ void loop() {
   }
  
 }
- 
 
+void movimentacao(int pwm) // utiliza o pwm para escolher o sentido da movimenção
+{  
+  //fica parado
+  if(pwm=0)
+  {
+    // algo se colocar 0
+  }
+  //movimenta para frente
+  else if(pwm>0) // se pwm for positivo, vai para frente
+  {
+    MotorR(pwm);
+    MotorL(pwm);
+  }
+  //movimenta para tras
+  else if(pwm<0) // se pwm for negativo, vai para tras
+  {
+    MotorR(-pwm);
+    MotorL(-pwm);
+  }
+}
+ 
 /**LEFT MOTOR CONTROL / CONTROLE DO MOTOR ESQUERDO / CONTROL DEL MOTOR IZQUIERDO**/
 // pwm = 0 -> stopped / parado / parado
 // 0<pwm<=255 -> forward / para frente / seguir adelante
@@ -198,7 +222,6 @@ void MotorL(int pwm){
     digitalWrite(leftMotor2, HIGH);
   }
 }
- 
  
 /**RIGHT MOTOR CONTROL / CONTROLE DO MOTOR DIREITO / CONTROL DEL MOTOR DERECHO**/
 // pwm = 0 -> stopped / parado / parado
