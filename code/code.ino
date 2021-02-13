@@ -40,9 +40,6 @@ void MotorR(int pwm); // right motor / motor direito / motor derecho
 int readDIP(); // read DIP switch / ler chave DIP / leer el interruptor DIP
 /*******FUNCTIONS - END*******/
 
-//Function team
-void VerificaInimigo (int *esquerda, int *direita);
-
 void setup() {
  
   /****************PINOUT CONFIG****************/
@@ -85,7 +82,13 @@ void setup() {
   MotorR(0); // right motor stopped / motor direito parado / motor derecho parado 
   /*************INITIAL CONDITIONS - END*************/
 }
- 
+
+// Verifica a existencia de inimigo a frente
+void VerificaInimigo (int *esquerda, int *direita){
+  *esquerda = digitalRead(distL);
+  *direita = digitalRead(distR);
+}
+
 void loop() {
   
 }
@@ -161,10 +164,4 @@ int readDIP(){
     n|= (1<<2);
   if(digitalRead(DIP1)==HIGH)
     n|= (1<<3);
-}
-
-// Verifica a existencia de inimigo a frente
-void VerificaInimigo (int *esquerda, int *direita){
-  *esquerda = digitalRead(distL);
-  *direita = digitalRead(distR);
 }
