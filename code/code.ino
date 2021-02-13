@@ -33,12 +33,14 @@
 // Jsumo's micro-start
 #define microST 2
 /*******PINOUT DEFINES - END*********/
- 
+
 /*******FUNCTIONS*******/
-void MotorL(int pwm); // left motor / motor esquerdo / motor izquierdo
-void MotorR(int pwm); // right motor / motor direito / motor derecho
-int readDIP(); // read DIP switch / ler chave DIP / leer el interruptor DIP
+void MotorL(int pwm); // motor esquerdo
+void MotorR(int pwm); // motor direito
+int readDIP(); //        ler chave DIP
 /*******FUNCTIONS - END*******/
+
+boolean start = false;
 
 void setup() {
  
