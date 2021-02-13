@@ -138,10 +138,10 @@ void estado_linha(int *direita, int *esquerda)
 }
 
 // Verifica a existencia de inimigo a frente
-void VerificaInimigo (int *esquerda, int *direita)
+void estado_inimigo (int *esquerda, int *direita)
 {
   *esquerda = digitalRead(distL);
-  
+
   *direita = digitalRead(distR);
 }
 
