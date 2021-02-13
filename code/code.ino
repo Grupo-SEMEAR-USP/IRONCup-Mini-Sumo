@@ -58,47 +58,129 @@ void setup() {
   pinMode(leftMotor1, OUTPUT);  // left motor dir.
   pinMode(leftMotor2, OUTPUT);  // left motor dir.
  
- 
   // INPUTS: DO NOT CHANGE / NAO MUDAR / NO CAMBIAR
   // DIP switch
-  pinMode(DIP1, INPUT_PULLUP);  // DO NOT CHANGE / NAO MUDAR / NO CAMBIAR
-  pinMode(DIP2, INPUT_PULLUP);  // DO NOT CHANGE / NAO MUDAR / NO CAMBIAR
-  pinMode(DIP3, INPUT_PULLUP);  // DO NOT CHANGE / NAO MUDAR / NO CAMBIAR
-  pinMode(DIP4, INPUT_PULLUP);  // DO NOT CHANGE / NAO MUDAR / NO CAMBIAR
+  pinMode(DIP1, INPUT_PULLUP);  // NAO MUDAR
+  pinMode(DIP2, INPUT_PULLUP);  // NAO MUDAR
+  pinMode(DIP3, INPUT_PULLUP);  // NAO MUDAR
+  pinMode(DIP4, INPUT_PULLUP);  // NAO MUDAR
   
   // line sensor
-  pinMode(lineL, INPUT); // DO NOT CHANGE / NAO MUDAR / NO CAMBIAR
-  pinMode(lineR, INPUT); // DO NOT CHANGE / NAO MUDAR / NO CAMBIAR
+  pinMode(lineL, INPUT); // NAO MUDAR / DIGITAL 
+  pinMode(lineR, INPUT); // NAO MUDAR / DIGITAL
  
   // distance sensor
-  pinMode(distR, INPUT); // DO NOT CHANGE / NAO MUDAR / NO CAMBIAR
-  pinMode(distL, INPUT); // DO NOT CHANGE / NAO MUDAR / NO CAMBIAR
+  pinMode(distR, INPUT); // NAO MUDAR / DIGITAL
+  pinMode(distL, INPUT); // NAO MUDAR / DIGITAL
  
   // micro-start
-  pinMode(microST, INPUT); // DO NOT CHANGE / NAO MUDAR / NO CAMBIAR
+  pinMode(microST, INPUT); // NAO MUDAR
   /****************PINOUT CONFIG - END***************/
  
   /***************INITIAL CONDITIONS*****************/
-  digitalWrite(LED, LOW); // LED off / LED desligado / LED apagado 
-  MotorL(0); // left motor stopped / motor esquerdo parado / motor izquierdo parado 
-  MotorR(0); // right motor stopped / motor direito parado / motor derecho parado 
+  digitalWrite(LED, LOW); // LED desligado
+  MotorL(0); //              motor esquerdo parado 
+  MotorR(0); //              motor direito parado
   /*************INITIAL CONDITIONS - END*************/
 }
 
+//Gira no sentido horario 
+void girar_Horario_eixo_robo(int pwm) // pwm > 0 Horário | pwm < 0 Anti Horario
+{  
+  
+  if(pwm = 0)
+  {
+    // algo se colocar 0
+
+  }
+  else if(pwm > 0) // se pwm for positivo, roda horario
+  {
+    MotorR(-pwm);
+
+    MotorL(pwm);
+  }
+  else if(pwm<0) // se pwm for negativo, roda anti-horario
+  {
+    MotorR(pwm);
+
+    MotorL(-pwm);   
+  }
+}
+
+//Gira para esquerda ou direira com eixo da roda
+void girar_eixo_roda(int pwm) // pwm > 0 direita | pwm < 0 esquerda
+{  
+  if(pwm = 0)
+  {
+    // algo se colocar 0
+
+  }
+  else if(pwm > 0) // se pwm for positivo, vai para direita com motorR fixo
+  {
+    MotorR(0);
+
+    MotorL(pwm);
+  }
+  else if(pwm<0) // se pwm for negativo, vai para direita com motorL fixo
+  {
+    MotorR(pwm);
+
+    MotorL(0);   
+  }
+}
+
+//Função que verifica o estado dos sensores de linha 
+void estado_linha(int *direita, int *esquerda)
+{
+    *(direita) = digitalRead(lineR);
+ 
+    *(esquerda) = digitalRead(lineL);
+}
+
 // Verifica a existencia de inimigo a frente
-void VerificaInimigo (int *esquerda, int *direita){
+void VerificaInimigo (int *esquerda, int *direita)
+{
   *esquerda = digitalRead(distL);
+  
   *direita = digitalRead(distR);
 }
 
 void loop() {
-  
+
+  // Qual o sinal inicial do microST? O botão seta ele constantemente para HIGH? 
+  while(digitalRead(microST))
+  {
+    
+  }
+ 
+}
+
+void movimentacao(int pwm) // utiliza o pwm para escolher o sentido da movimenção
+{  
+  //fica parado
+  if(pwm=0)
+  {
+    // algo se colocar 0
+  }
+  //movimenta para frente
+  else if(pwm>0) // se pwm for positivo, vai para frente
+  {
+    MotorR(pwm);
+    MotorL(pwm);
+  }
+  //movimenta para tras
+  else if(pwm<0) // se pwm for negativo, vai para tras
+  {
+    MotorR(-pwm);
+    MotorL(-pwm);
+  }
 }
  
 /**LEFT MOTOR CONTROL / CONTROLE DO MOTOR ESQUERDO / CONTROL DEL MOTOR IZQUIERDO**/
 // pwm = 0 -> stopped / parado / parado
 // 0<pwm<=255 -> forward / para frente / seguir adelante
 // -255<=pwm<0 -> backward / para tras / seguir espalda
+
 void MotorL(int pwm){
   // leftMotor1=0 and leftMotor2=0 -> stopped / parado / parado 
   // leftMotor1=0 and leftMotor2=1 -> moves forward / avanca / avanzar
@@ -122,7 +204,6 @@ void MotorL(int pwm){
     digitalWrite(leftMotor2, HIGH);
   }
 }
- 
  
 /**RIGHT MOTOR CONTROL / CONTROLE DO MOTOR DIREITO / CONTROL DEL MOTOR DERECHO**/
 // pwm = 0 -> stopped / parado / parado
