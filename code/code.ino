@@ -126,7 +126,7 @@ void girar_eixo_roda(int pwm) // pwm > 0 direita | pwm < 0 esquerda
 
 //a função deve receber os sensores dir e esq, não seria mais fácil manter as variáveis de sensor como globais, para acesso/consulta em todas as funções sem precisar recebê-las?
 
-void trajeto_simples(int pwm, int &dir, int &esq) // < precisa receber &dir e &esq ? e se utilizar var global?
+void trajeto_simples(int pwm, int *dir, int *esq) // < precisa receber &dir e &esq ? e se utilizar var global?
 {
 	while(true)
 	{
