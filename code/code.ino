@@ -136,7 +136,15 @@ void estado_linha(int *direita, int *esquerda)
  
     *(esquerda) = digitalRead(lineL);
 }
+
+//Função que verifica o estado dos sensores de linha 
+void estado_linha(int *direita, int *esquerda)
+{
+    *(direita) = digitalRead(lineR);
  
+    *(esquerda) = digitalRead(lineL);
+}
+
 void loop() {
 
   // Qual o sinal inicial do microST? O botão seta ele constantemente para HIGH? 
