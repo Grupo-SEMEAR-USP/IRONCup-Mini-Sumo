@@ -213,15 +213,15 @@ void teste ()
 
   //Da ré rotacionando horário no eixo-roda
   re_eixo_roda(100);
-  delay(1000);
+  delay(350);
 
   //Para o movimento
   movimentacao(0);
-  delay(500);
+  delay(150);
 
   //Da ré rotacionando anti-horário no eixo-roda
   re_eixo_roda(-100);
-  delay(1000);
+  delay(350);
 
   //Para o movimento
   movimentacao(0);
