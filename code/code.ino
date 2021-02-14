@@ -129,7 +129,8 @@ void trajeto_simples(int pwm) // < precisa receber &dir e &esq ? e se utilizar v
 {
   int dir = 0;
   int esq = 0;
-  int tempo_base = 255000;
+  const int tempo_base = 25500;
+  //200 ms => 180 graus
 	while(true)
 	{
 		movimentacao(pwm);	//vai para frente (em função de pwm)
@@ -143,7 +144,7 @@ void trajeto_simples(int pwm) // < precisa receber &dir e &esq ? e se utilizar v
 			delay(tempo_base/pwm);
 			//***atentar para o fato de q a velocidade vai alterar 
 			//***o tempo q precisa para o robo rodar ou ir para traz
-			//***pode se usar um delay inversamente proporcional a velocidade
+			//***usar um delay inversamente proporcional a velocidade
 		}
 		else if(esq) //se sensor esquerdo habilitado
 		{
