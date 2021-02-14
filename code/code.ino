@@ -157,9 +157,15 @@ void trajeto_simples(int pwm) // < precisa receber &dir e &esq ? e se utilizar v
 //Função que verifica o estado dos sensores de linha 
 void estado_linha(int *direita, int *esquerda)
 {
-    *(direita) = digitalRead(lineR);
- 
-    *(esquerda) = digitalRead(lineL);
+     if(analogRead(lineR) <= 740)
+      *(direita) = 1;
+     else
+      *(direita) = 0;
+
+     if(analogRead(lineL) <= 740)
+      *(esquerda) = 1;
+     else
+      *(esquerda) = 0;
 }
 
 //Verifica os sensores de distancia
@@ -245,11 +251,13 @@ void trajeto_com_inimigo(int pwm)
       {
         //Dar ré no anti-horario
         re_eixo_roda(-pwm);
+        delay(255000/pwm);
       }
       else
       {
         //Dar ré no horario
         re_eixo_roda(pwm);
+        delay(255000/pwm);
       }
     }
   }
