@@ -155,13 +155,13 @@ void re_eixo_roda(int pwm) // pwm > 0 sentido horario | pwm < 0 sentido anti-hor
   }
   else if(pwm > 0) // se pwm for positivo, ré no sentido horario
   {
-    MotorR(pwm);
+    MotorR(-pwm);
 
     MotorL(0);
   }
   else if(pwm<0) // se pwm for negativo, ré no sentido Anti-horario
   {
-    MotorL(-pwm);
+    MotorL(pwm);
 
     MotorR(0);   
   }
