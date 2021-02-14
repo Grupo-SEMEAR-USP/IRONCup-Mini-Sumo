@@ -286,75 +286,79 @@ void loop() {
 }
 
 // Testes das funções base
-void teste ()
+void teste (int pwm)
 {
   /* Testes de movimentacao*/
 
   //Anda pra frente
-  movimentacao(130);
-  delay(500);
+  movimentacao(pwm);
+  delay(130000/pwm);
 
   //Para o movimento
   movimentacao(0);
-  delay(150);
+  delay(200);
 
   //Anda para trás
-  movimentacao(-130);
-  delay(500);
+  movimentacao(-pwm);
+  delay(130000/(2*pwm));
 
   //Para o movimento
   movimentacao(0);
+  delay(200);
 
   /* Testes de rotação eixo-robo*/
 
   //Rotaciona horário no eixo do robo
-  girar_Horario_eixo_robo(100);
-  delay(350);
+  girar_Horario_eixo_robo(pwm);
+  delay(130000/pwm);
 
   //Para o movimento
   movimentacao(0);
-  delay(150);
+  delay(200);
 
   //Rotaciona anti-horário no eixo do robo
-  girar_Horario_eixo_robo(-100);
-  delay(350);
+  girar_Horario_eixo_robo(-pwm);
+  delay(130000/pwm);
 
   //Para o movimento 
   movimentacao(0);
+  delay(200);
 
   /* Testes de rotação eixo-roda*/
 
   //Rotaciona horário no eixo da roda
-  girar_eixo_roda(100);
-  delay(350);
+  girar_eixo_roda(pwm);
+  delay(130000/pwm);
 
   //Para o movimento
   movimentacao(0);
-  delay(150);
+  delay(200);
 
   //Rotaciona anti-horário no eixo da roda
-  girar_eixo_roda(-100);
-  delay(350);
+  girar_eixo_roda(-pwm);
+  delay(130000/pwm);
 
   //Para o movimento
   movimentacao(0);
+  delay(200);
 
   /* Testes de ré eixo-roda*/
 
   //Da ré rotacionando horário no eixo-roda
-  re_eixo_roda(100);
-  delay(350);
+  re_eixo_roda(pwm);
+  delay(130000/pwm);
 
   //Para o movimento
   movimentacao(0);
-  delay(150);
+  delay(200);
 
   //Da ré rotacionando anti-horário no eixo-roda
-  re_eixo_roda(-100);
-  delay(350);
+  re_eixo_roda(-pwm);
+  delay(130000/pwm);
 
   //Para o movimento
   movimentacao(0);
+  delay(200);
 }
 
 void movimentacao(int pwm) // utiliza o pwm para escolher o sentido da movimenção
