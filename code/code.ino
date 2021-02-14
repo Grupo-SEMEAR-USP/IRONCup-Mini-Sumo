@@ -145,6 +145,28 @@ void estado_inimigos(int *esquerda, int *direita)
     *direita = digitalRead(distR);
 }
 
+//Gira para esquerda ou direira com eixo da roda
+void re_eixo_roda(int pwm) // pwm > 0 sentido horario | pwm < 0 sentido anti-horario
+{  
+  if(pwm = 0)
+  {
+    // algo se colocar 0
+
+  }
+  else if(pwm > 0) // se pwm for positivo, ré no sentido horario
+  {
+    MotorR(-pwm);
+
+    MotorL(0);
+  }
+  else if(pwm<0) // se pwm for negativo, ré no sentido Anti-horario
+  {
+    MotorL(pwm);
+
+    MotorR(0);   
+  }
+}
+
 void loop() {
 
   // Qual o sinal inicial do microST? O botão seta ele constantemente para HIGH? 
@@ -230,7 +252,7 @@ void teste ()
 void movimentacao(int pwm) // utiliza o pwm para escolher o sentido da movimenção
 {  
   //movimenta para frente ou fica parado
-  if(pwm>=0) // se pwm for positivo, vai para frente
+  if(pwm>=0) // se pwm for positivo, vai para frente / Se pwr for 0, fica parado
   {
     MotorR(pwm);
     MotorL(pwm);
@@ -238,8 +260,8 @@ void movimentacao(int pwm) // utiliza o pwm para escolher o sentido da movimenç
   //movimenta para tras
   else if(pwm<0) // se pwm for negativo, vai para tras
   {
-    MotorR(-pwm);
-    MotorL(-pwm);
+    MotorR(pwm);
+    MotorL(pwm);
   }
 }
  
