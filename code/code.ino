@@ -252,13 +252,13 @@ void trajeto_com_inimigo(int pwm)
       {
         //Dar ré no anti-horario
         re_eixo_roda(-pwm);
-        delay(255000/pwm);
+        delay(25500/pwm);
       }
       else
       {
         //Dar ré no horario
         re_eixo_roda(pwm);
-        delay(255000/pwm);
+        delay(25500/pwm);
       }
     }
   }
