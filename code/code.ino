@@ -155,15 +155,82 @@ void loop() {
  
 }
 
+// Testes das funções base
+void teste ()
+{
+  /* Testes de movimentacao*/
+
+  //Anda pra frente
+  movimentacao(130);
+  delay(500);
+
+  //Para o movimento
+  movimentacao(0);
+  delay(150);
+
+  //Anda para trás
+  movimentacao(-130);
+  delay(500);
+
+  //Para o movimento
+  movimentacao(0);
+
+  /* Testes de rotação eixo-robo*/
+
+  //Rotaciona horário no eixo do robo
+  girar_Horario_eixo_robo(100);
+  delay(350);
+
+  //Para o movimento
+  movimentacao(0);
+  delay(150);
+
+  //Rotaciona anti-horário no eixo do robo
+  girar_Horario_eixo_robo(-100);
+  delay(350);
+
+  //Para o movimento 
+  movimentacao(0);
+
+  /* Testes de rotação eixo-roda*/
+
+  //Rotaciona horário no eixo da roda
+  girar_eixo_roda(100);
+  delay(350);
+
+  //Para o movimento
+  movimentacao(0);
+  delay(150);
+
+  //Rotaciona anti-horário no eixo da roda
+  girar_eixo_roda(-100);
+  delay(350);
+
+  //Para o movimento
+  movimentacao(0);
+
+  /* Testes de ré eixo-roda*/
+
+  //Da ré rotacionando horário no eixo-roda
+  re_eixo_roda(100);
+  delay(1000);
+
+  //Para o movimento
+  movimentacao(0);
+  delay(500);
+
+  //Da ré rotacionando anti-horário no eixo-roda
+  re_eixo_roda(-100);
+  delay(1000);
+
+  //Para o movimento
+  movimentacao(0);
+}
+
 void movimentacao(int pwm) // utiliza o pwm para escolher o sentido da movimenção
 {  
-  //fica parado
-  if(pwm=0)
-  {
-    // algo se colocar 0
-  }
-  //movimenta para frente
-  else if(pwm>0) // se pwm for positivo, vai para frente
+  //movimenta para frente ou fica parado
+  if(pwm>=0) // se pwm for positivo, vai para frente
   {
     MotorR(pwm);
     MotorL(pwm);
