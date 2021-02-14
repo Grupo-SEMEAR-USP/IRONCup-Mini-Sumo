@@ -258,10 +258,21 @@ void trajeto_com_inimigo(int pwm)
 
 void loop() {
 
+  int DIP;
+  
   // Qual o sinal inicial do microST? O botão seta ele constantemente para HIGH? 
   while(digitalRead(microST))
   {
-    
+    DIP = readDIP();
+
+    //Inserir as estratégias de acordo com número do DIP
+    switch(DIP)
+    {
+      case 0: Serial.println("Legal");
+              break;
+
+      default: break;
+    }
   }
  
 }
