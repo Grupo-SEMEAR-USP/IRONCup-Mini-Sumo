@@ -164,12 +164,97 @@ void estado_linha(int *direita, int *esquerda)
 }
 
 //Verifica os sensores de distancia
-void estado_inimigos(int *esquerda, int *direita)
+void estado_inimigos(int *direita, int *esquerda)
 {
     *esquerda = digitalRead(distL);
  
     *direita = digitalRead(distR);
 }
+
+//Gira para esquerda ou direira com eixo da roda
+void re_eixo_roda(int pwm) // pwm > 0 sentido horario | pwm < 0 sentido anti-horario
+{  
+  if(pwm = 0)
+  {
+    // algo se colocar 0
+
+  }
+  else if(pwm > 0) // se pwm for positivo, ré no sentido horario
+  {
+    MotorR(-pwm);
+
+    MotorL(0);
+  }
+  else if(pwm<0) // se pwm for negativo, ré no sentido Anti-horario
+  {
+    MotorL(pwm);
+
+    MotorR(0);   
+  }
+}
+
+//Função que movimenta o robô num trajeto com oponentes
+void trajeto_com_inimigo(int pwm) 
+{
+  int linhaD = 0;
+  int linhaE = 0;
+  int iniE = 0;
+  int iniD = 0;
+
+  while(true)
+  {
+    estado_linha(&linhaD,&linhaE);
+    estado_inimigos(&iniD, &iniE);
+
+    //Verifica se o robô está na linha
+    if( !linhaD && !linhaE)
+    {
+      //Leu na esquerda, mas não na direita
+      if(iniE && !iniD)
+      {
+        //Mover o robô para a esquerda
+        girar_Horario_eixo_robo(-pwm);
+      }
+      else if(!iniE && iniD)
+      {
+        //Mover o robô para a direita
+        girar_Horario_eixo_robo(pwm);
+      }
+      else if(iniE && iniD)
+      {
+        //Os dois sensores detectam o oponente, ir para frente
+        movimentacao(pwm);
+      }
+      else
+      {
+        //Não há sinal do sensor de linha e nem do oponente
+        //Ficar girando? Ou ir para frente?
+        girar_Horario_eixo_robo(pwm);
+      }
+      
+      
+    }
+    else //Algum sensor de linha está ativado
+    {
+      
+      if(linhaD && linhaE)
+      {
+        //Dar ré
+        movimentacao(-pwm);  
+      }
+      else if(linhaD && !linhaE)
+      {
+        //Dar ré no anti-horario
+        re_eixo_roda(-pwm);
+      }
+      else
+      {
+        //Dar ré no horario
+        re_eixo_roda(pwm);
+      }
+    }
+  }
+} 
 
 void loop() {
 
