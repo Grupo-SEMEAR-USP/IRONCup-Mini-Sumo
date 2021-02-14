@@ -87,6 +87,7 @@ void setup() {
 //Gira no sentido horario 
 void girar_Horario_eixo_robo(int pwm) // pwm > 0 Horário | pwm < 0 Anti Horario
 {  
+  
   if(pwm = 0)
   {
     // algo se colocar 0
@@ -95,11 +96,13 @@ void girar_Horario_eixo_robo(int pwm) // pwm > 0 Horário | pwm < 0 Anti Horario
   else if(pwm > 0) // se pwm for positivo, roda horario
   {
     MotorR(-pwm);
+
     MotorL(pwm);
   }
   else if(pwm<0) // se pwm for negativo, roda anti-horario
   {
     MotorR(pwm);
+
     MotorL(-pwm);   
   }
 }
@@ -110,151 +113,43 @@ void girar_eixo_roda(int pwm) // pwm > 0 direita | pwm < 0 esquerda
   if(pwm = 0)
   {
     // algo se colocar 0
+
   }
   else if(pwm > 0) // se pwm for positivo, vai para direita com motorR fixo
   {
     MotorR(0);
+
     MotorL(pwm);
   }
   else if(pwm<0) // se pwm for negativo, vai para direita com motorL fixo
   {
     MotorR(pwm);
+
     MotorL(0);   
   }
 }
 
-
-//A função deve receber os sensores dir e esq, não seria mais fácil manter as variáveis de sensor como globais, para acesso/consulta em todas as funções sem precisar recebê-las?
-void trajeto_simples(int pwm) // < precisa receber &dir e &esq ? e se utilizar var global?
-{
-  int dir = 0;
-  int esq = 0;
-  
-	while(true)
-	{
-		estado_linha(&dir,&esq);
-		while(!(*dir || *esq)) //enquanto sensor dir e esq forem 0
-		{
-				//vai para frente (em função de pwm)
-				estado_linha(&dir,&esq);
-		}		
-		if(*dir) //se sensor direito habilitado
-		{
-			//vai para trás um pouco (em função de pwm)
-			//roda sentido anti horario um pouco (em função de pwm)
-			//***atentar para o fato de q a velocidade vai alterar 
-			//***o tempo q precisa para o robo rodar ou ir para traz
-			//***pode se usar um delay inversamente proporcional a velocidade
-		}
-		else if(*esq) //se sensor esquerdo habilitado
-		{
-			//vai para trás (em função de pwm)
-			//roda sentido horario um pouco	(em função de pwm)
-		}	
-	}
-} //fim trajeto_simples
-
-
 //Função que verifica o estado dos sensores de linha 
 void estado_linha(int *direita, int *esquerda)
-{
-    *(direita) = digitalRead(lineR);
- 
-    *(esquerda) = digitalRead(lineL);
+{ 
+  if(analogRead(lineR) <= 740)
+    *(direita) = 1;
+  else
+    *(direita) = 0;
+
+  if(analogRead(lineL) <= 740)
+    *(esquerda) = 1;
+  else
+    *(esquerda) = 0;
 }
 
 //Verifica os sensores de distancia
-void estado_inimigos(int *direita, int *esquerda)
+void estado_inimigos(int *esquerda, int *direita)
 {
-    *esquerda = digitalRead(distL);
+  *esquerda = digitalRead(distL);
  
-    *direita = digitalRead(distR);
+  *direita = digitalRead(distR);
 }
-
-//Gira para esquerda ou direira com eixo da roda
-void re_eixo_roda(int pwm) // pwm > 0 sentido horario | pwm < 0 sentido anti-horario
-{  
-  if(pwm = 0)
-  {
-    // algo se colocar 0
-
-  }
-  else if(pwm > 0) // se pwm for positivo, ré no sentido horario
-  {
-    MotorR(-pwm);
-
-    MotorL(0);
-  }
-  else if(pwm<0) // se pwm for negativo, ré no sentido Anti-horario
-  {
-    MotorL(pwm);
-
-    MotorR(0);   
-  }
-}
-
-//Função que movimenta o robô num trajeto com oponentes
-void trajeto_com_inimigo(int pwm) 
-{
-  int linhaD = 0;
-  int linhaE = 0;
-  int iniE = 0;
-  int iniD = 0;
-
-  while(true)
-  {
-    estado_linha(&linhaD,&linhaE);
-    estado_inimigos(&iniD, &iniE);
-
-    //Verifica se o robô está na linha
-    if( !linhaD && !linhaE)
-    {
-      //Leu na esquerda, mas não na direita
-      if(iniE && !iniD)
-      {
-        //Mover o robô para a esquerda
-        girar_Horario_eixo_robo(-pwm);
-      }
-      else if(!iniE && iniD)
-      {
-        //Mover o robô para a direita
-        girar_Horario_eixo_robo(pwm);
-      }
-      else if(iniE && iniD)
-      {
-        //Os dois sensores detectam o oponente, ir para frente
-        movimentacao(pwm);
-      }
-      else
-      {
-        //Não há sinal do sensor de linha e nem do oponente
-        //Ficar girando? Ou ir para frente?
-        girar_Horario_eixo_robo(pwm);
-      }
-      
-      
-    }
-    else //Algum sensor de linha está ativado
-    {
-      
-      if(linhaD && linhaE)
-      {
-        //Dar ré
-        movimentacao(-pwm);  
-      }
-      else if(linhaD && !linhaE)
-      {
-        //Dar ré no anti-horario
-        re_eixo_roda(-pwm);
-      }
-      else
-      {
-        //Dar ré no horario
-        re_eixo_roda(pwm);
-      }
-    }
-  }
-} 
 
 void loop() {
 
@@ -277,82 +172,15 @@ void loop() {
  
 }
 
-// Testes das funções base
-void teste ()
-{
-  /* Testes de movimentacao*/
-
-  //Anda pra frente
-  movimentacao(130);
-  delay(500);
-
-  //Para o movimento
-  movimentacao(0);
-  delay(150);
-
-  //Anda para trás
-  movimentacao(-130);
-  delay(500);
-
-  //Para o movimento
-  movimentacao(0);
-
-  /* Testes de rotação eixo-robo*/
-
-  //Rotaciona horário no eixo do robo
-  girar_Horario_eixo_robo(100);
-  delay(350);
-
-  //Para o movimento
-  movimentacao(0);
-  delay(150);
-
-  //Rotaciona anti-horário no eixo do robo
-  girar_Horario_eixo_robo(-100);
-  delay(350);
-
-  //Para o movimento 
-  movimentacao(0);
-
-  /* Testes de rotação eixo-roda*/
-
-  //Rotaciona horário no eixo da roda
-  girar_eixo_roda(100);
-  delay(350);
-
-  //Para o movimento
-  movimentacao(0);
-  delay(150);
-
-  //Rotaciona anti-horário no eixo da roda
-  girar_eixo_roda(-100);
-  delay(350);
-
-  //Para o movimento
-  movimentacao(0);
-
-  /* Testes de ré eixo-roda*/
-
-  //Da ré rotacionando horário no eixo-roda
-  re_eixo_roda(100);
-  delay(350);
-
-  //Para o movimento
-  movimentacao(0);
-  delay(150);
-
-  //Da ré rotacionando anti-horário no eixo-roda
-  re_eixo_roda(-100);
-  delay(350);
-
-  //Para o movimento
-  movimentacao(0);
-}
-
 void movimentacao(int pwm) // utiliza o pwm para escolher o sentido da movimenção
 {  
-  //movimenta para frente ou fica parado
-  if(pwm>=0) // se pwm for positivo, vai para frente / Se pwr for 0, fica parado
+  //fica parado
+  if(pwm=0)
+  {
+    // algo se colocar 0
+  }
+  //movimenta para frente
+  else if(pwm>0) // se pwm for positivo, vai para frente
   {
     MotorR(pwm);
     MotorL(pwm);
@@ -360,8 +188,8 @@ void movimentacao(int pwm) // utiliza o pwm para escolher o sentido da movimenç
   //movimenta para tras
   else if(pwm<0) // se pwm for negativo, vai para tras
   {
-    MotorR(pwm);
-    MotorL(pwm);
+    MotorR(-pwm);
+    MotorL(-pwm);
   }
 }
  
