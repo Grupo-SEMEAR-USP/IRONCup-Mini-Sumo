@@ -129,7 +129,7 @@ void trajeto_simples(int pwm) // < precisa receber &dir e &esq ? e se utilizar v
 {
   int dir = 0;
   int esq = 0;
-  
+  int tempo_base = 255000;
 	while(true)
 	{
 		movimentacao(pwm);	//vai para frente (em função de pwm)
@@ -140,7 +140,7 @@ void trajeto_simples(int pwm) // < precisa receber &dir e &esq ? e se utilizar v
 		if(dir) //se sensor direito habilitado
 		{
 			re_eixo_roda(pwm); //gira sentido horario para trás um pouco (em função de pwm)
-			delay(255000/pwm);
+			delay(tempo_base/pwm);
 			//***atentar para o fato de q a velocidade vai alterar 
 			//***o tempo q precisa para o robo rodar ou ir para traz
 			//***pode se usar um delay inversamente proporcional a velocidade
@@ -148,7 +148,7 @@ void trajeto_simples(int pwm) // < precisa receber &dir e &esq ? e se utilizar v
 		else if(esq) //se sensor esquerdo habilitado
 		{
 			re_eixo_roda(-pwm);//gira sentido anti horario para trás um pouco (em função de pwm)
-			delay(255000/abs(pwm));//roda sentido horario um pouco	(em função de pwm)
+			delay(tempo_base/abs(pwm));//roda sentido horario um pouco	(em função de pwm)
 		}	
 	}
 } //fim trajeto_simples
