@@ -87,7 +87,7 @@ void setup() {
 //Gira no sentido horario 
 void girar_Horario_eixo_robo(int pwm) // pwm > 0 Horário | pwm < 0 Anti Horario
 {  
-  if(pwm = 0)
+  if(pwm == 0)
   {
     // algo se colocar 0
 
@@ -97,17 +97,17 @@ void girar_Horario_eixo_robo(int pwm) // pwm > 0 Horário | pwm < 0 Anti Horario
     MotorR(-pwm);
     MotorL(pwm);
   }
-  else if(pwm<0) // se pwm for negativo, roda anti-horario
+  else if(pwm < 0) // se pwm for negativo, roda anti-horario
   {
-    MotorR(pwm);
-    MotorL(-pwm);   
+    MotorR(-pwm);
+    MotorL(pwm);   
   }
 }
 
 //Gira para esquerda ou direira com eixo da roda
 void girar_eixo_roda(int pwm) // pwm > 0 direita | pwm < 0 esquerda
 {  
-  if(pwm = 0)
+  if(pwm == 0)
   {
     // algo se colocar 0
   }
@@ -136,8 +136,11 @@ void trajeto_simples(int pwm) // < precisa receber &dir e &esq ? e se utilizar v
 		movimentacao(pwm);	//vai para frente (em função de pwm)
 		while(!(dir || esq)) //enquanto sensor dir e esq forem 0
 		{
+        
 				estado_linha(&dir,&esq); //checa estado linha até mudar
-		}		
+		}
+
+    movimentacao(0);
 		if(dir) //se sensor direito habilitado
 		{
 			re_eixo_roda(pwm); //gira sentido horario para trás um pouco (em função de pwm)
@@ -180,7 +183,7 @@ void estado_inimigos(int *direita, int *esquerda)
 //Gira para esquerda ou direira com eixo da roda
 void re_eixo_roda(int pwm) // pwm > 0 sentido horario | pwm < 0 sentido anti-horario
 {  
-  if(pwm = 0)
+  if(pwm == 0)
   {
     // algo se colocar 0
 
@@ -207,7 +210,8 @@ void trajeto_com_inimigo(int pwm)
   int iniE = 0;
   int iniD = 0;
 
-  while(true)
+  //Importante estar no loop da estratégia enquanto o microST estiver ativo
+  while(digitalRead(microST))
   {
     estado_linha(&linhaD,&linhaE);
     estado_inimigos(&iniD, &iniE);
@@ -246,31 +250,38 @@ void trajeto_com_inimigo(int pwm)
       if(linhaD && linhaE)
       {
         //Dar ré
-        movimentacao(-pwm);  
+        movimentacao(-pwm);
+        delay(51000/pwm);  //Aumentado o delay (antes era 25500/pwm)
       }
       else if(linhaD && !linhaE)
       {
         //Dar ré no anti-horario
         re_eixo_roda(-pwm);
-        delay(25500/pwm);
+        delay(51000/pwm);   //Cuidado: o robô pode cair ao fazer essa curva de 0,4 s
+
+        //Segestão: Dar ré-reta pela metade do tempo
+        //          Ré-giratória pela outra metade do tempo
       }
       else
       {
         //Dar ré no horario
         re_eixo_roda(pwm);
-        delay(25500/pwm);
+        delay(51000/pwm);
       }
     }
   }
 } 
 
+//Mudar a velocidade durante a investida
+
 void loop() {
 
   int DIP;
-  
-  // Qual o sinal inicial do microST? O botão seta ele constantemente para HIGH? 
+
+  //Importante estar no loop da estratégia enquanto o microST estiver ativo
   while(digitalRead(microST))
   {
+    
     DIP = readDIP();
 
     //Inserir as estratégias de acordo com número do DIP
@@ -282,7 +293,7 @@ void loop() {
       case 1: teste(255);
               break;
 
-      case 2: trajeto_simples(125);
+      case 2: trajeto_simples(30);
               break;
 
       case 3: trajeto_simples(255);
@@ -293,10 +304,23 @@ void loop() {
 
       case 5: trajeto_com_inimigo(255);
               break;
-              
+
+      case 6: girar_Horario_eixo_robo(255);
+              break;
+
+      case 7: MotorR(100); //Funcionou
+              MotorL(-100);
+              break;
+
+      case 8: MotorR(150); //Funcionou
+              MotorL(0);
+              break;
     }
   }
- 
+
+  //Importante parar o robô
+  MotorR(0);
+  MotorL(0);
 }
 
 // Testes das funções base
