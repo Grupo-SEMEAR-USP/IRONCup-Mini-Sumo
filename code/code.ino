@@ -276,10 +276,24 @@ void loop() {
     //Inserir as estratégias de acordo com número do DIP
     switch(DIP)
     {
-      case 0: Serial.println("Legal");
+      case 0: teste(125);
+              break;
+  
+      case 1: teste(255);
               break;
 
-      default: break;
+      case 2: trajeto_simples(125);
+              break;
+
+      case 3: trajeto_simples(255);
+              break;
+      
+      case 4: trajeto_com_inimigo(125);
+              break;
+
+      case 5: trajeto_com_inimigo(255);
+              break;
+              
     }
   }
  
