@@ -378,17 +378,8 @@ void teste (int pwm)
 void movimentacao(int pwm) // utiliza o pwm para escolher o sentido da movimenção
 {  
   //movimenta para frente ou fica parado
-  if(pwm>=0) // se pwm for positivo, vai para frente / Se pwr for 0, fica parado
-  {
-    MotorR(pwm);
-    MotorL(pwm);
-  }
-  //movimenta para tras
-  else if(pwm<0) // se pwm for negativo, vai para tras
-  {
-    MotorR(pwm);
-    MotorL(pwm);
-  }
+  MotorR(pwm);
+  MotorL(pwm);
 }
  
 /**LEFT MOTOR CONTROL / CONTROLE DO MOTOR ESQUERDO / CONTROL DEL MOTOR IZQUIERDO**/
