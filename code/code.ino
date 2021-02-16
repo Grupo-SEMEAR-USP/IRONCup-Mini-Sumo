@@ -316,6 +316,113 @@ void e1_tornado(int pwm)
   }
 }
 
+void e3_tempestade(int pwm)
+{
+
+  int linhaD = 0;
+  int linhaE = 0;
+  int iniE = 0;
+  int iniD = 0;
+  int estado = 0;
+  int contador = 0;
+
+  //Importante estar no loop da estratégia enquanto o microST estiver ativo
+  while(digitalRead(microST))
+  {
+    estado_linha(&linhaD,&linhaE);
+    estado_inimigos(&iniD, &iniE);
+
+    //Verifica se o robô está na linha
+    if( !linhaD && !linhaE)//robô não está na linha
+    {
+      //Tem inimigo na esquerda, mas não na direita
+      if(iniE && !iniD)
+      {
+        //Mover o robô para a esquerda
+        girar_Horario_eixo_robo(-pwm);
+      }
+      else if(!iniE && iniD)//Tem inimigo na direita mas não na esquerda
+      {
+        //Mover o robô para a direita
+        girar_Horario_eixo_robo(pwm);
+      }
+      else if(iniE && iniD)
+      {
+        //Os dois sensores detectam o oponente, ir para frente
+        movimentacao(255);
+      }
+      else
+      {
+        //Não há sinal do sensor de linha e nem do oponente
+        //Dar dois piques frontais e girar
+        if(estado == 0){
+          movimentacao(pwm);//dá o primeiro pique
+          delay(51000/pwm);
+          }
+        else if(estado == 1){
+          movimentacao(0);//para
+          delay(25500/pwm);
+          }
+         else if(estado == 2){
+           movimentacao(pwm);//dá o segundo pique
+           delay(51000/pwm);
+          }
+         else if(estado == 3){
+          movimentacao(0);//para
+          delay(25500/pwm);
+          }
+         else if(estado == 4){
+          if(contador % 2 == 0){//alternar entre giro horário e anti horário
+            contador = 0;
+            girar_Horario_eixo_robo(pwm);//rotacionar um pouco no sentido horário pra tentar achar o inimigo
+            delay(51000/pwm);
+          }
+          else{
+            contador = 1;
+            girar_Horario_eixo_robo(-pwm);//rotacionar um pouco no sentido anti-horário pra tentar achar o inimigo
+            delay(51000/pwm);
+          }
+          contador++;
+          }
+         else{
+          estado = -1; //botar o estado em -1 caso seja maior que 4, pq na próxima linha (estado++) volta ele pra 0
+         }
+          estado ++;
+          
+        
+      }
+      
+      
+    }
+    else //Algum sensor de linha está ativado
+    {
+      
+      if(linhaD && linhaE)
+      {
+        //Dar ré
+        movimentacao(-pwm);
+        delay(51000/pwm);  //Aumentado o delay (antes era 25500/pwm)
+      }
+      else if(linhaD && !linhaE)
+      {
+        //Dar ré no anti-horario
+        re_eixo_roda(-pwm);
+        delay(51000/pwm);   //Cuidado: o robô pode cair ao fazer essa curva de 0,4 s
+
+        //Segestão: Dar ré-reta pela metade do tempo
+        //          Ré-giratória pela outra metade do tempo
+      }
+      else
+      {
+        //Dar ré no horario
+        re_eixo_roda(pwm);
+        delay(51000/pwm);
+      }
+    }
+  }
+  
+  }
+
 void e4_procuranado_aleatoriamente ()
 {
   const int velo_max = 255;
