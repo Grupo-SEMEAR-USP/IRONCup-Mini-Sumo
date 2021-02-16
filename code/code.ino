@@ -343,14 +343,14 @@ void procuranado_aleatoriamente ()
       // Da ré sentido horário (sensor ativo na direita)
       if (linhaD==1 && linhaE==0)
       {
-        re_eixo_roda(-255);
+        re_eixo_roda(-240);
         delay(sleep);
       }
 
       // Da ré sentido anti-horário (sensor ativo na esquerda ou em ambos lados)
       else
       {
-        re_eixo_roda(255);
+        re_eixo_roda(240);
         delay(sleep);
       }
     }
@@ -368,13 +368,13 @@ void procuranado_aleatoriamente ()
       // Rotaciona horário (sensor da direita ativo)
       if (iniD==1 && iniE==0)
       {
-        girar_Horario_eixo_robo(255);
+        girar_Horario_eixo_robo(240);
       }
 
       // Rotaciona anti-horário (sensor da esquerda ativo)
       else if (iniD==0 && iniE==1)
       {
-        girar_Horario_eixo_robo(-255);
+        girar_Horario_eixo_robo(-240);
       }
     }
   }
