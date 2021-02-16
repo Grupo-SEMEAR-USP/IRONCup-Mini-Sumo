@@ -317,7 +317,7 @@ void trajeto_com_inimigo(int pwm)
   }
 }
 
-void procuranado_aleatoriamente ()
+void e4_procuranado_aleatoriamente ()
 {
   const int velo_max = 255;
   int linhaD = 0;
@@ -376,6 +376,13 @@ void procuranado_aleatoriamente ()
       {
         girar_Horario_eixo_robo(-240);
       }
+    }
+   
+    /* Caso nenhum sensor fique ativo */
+   
+    else 
+    {
+        movimentacao(255);
     }
   }
 }
