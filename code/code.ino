@@ -358,25 +358,25 @@ void e3_tempestade(int pwm)
         if(estado == 0){
           movimentacao(pwm);//dá o primeiro pique
           delay(51000/pwm);
-          }
+        }
         else if(estado == 1){
           movimentacao(0);//para
           delay(25500/pwm);
-          }
+        }
          else if(estado == 2){
            movimentacao(pwm);//dá o segundo pique
            delay(51000/pwm);
-          }
+        }
          else if(estado == 3){
           movimentacao(0);//para
           delay(25500/pwm);
-          }
+         }
          else if(estado == 4){
-          if(contador % 2 == 0){//alternar entre giro horário e anti horário
-            contador = 0;
-            girar_Horario_eixo_robo(pwm);//rotacionar um pouco no sentido horário pra tentar achar o inimigo
-            delay(51000/pwm);
-          }
+           if(contador % 2 == 0){//alternar entre giro horário e anti horário
+             contador = 0;
+             girar_Horario_eixo_robo(pwm);//rotacionar um pouco no sentido horário pra tentar achar o inimigo
+             delay(51000/pwm);
+           }
           else{
             contador = 1;
             girar_Horario_eixo_robo(-pwm);//rotacionar um pouco no sentido anti-horário pra tentar achar o inimigo
