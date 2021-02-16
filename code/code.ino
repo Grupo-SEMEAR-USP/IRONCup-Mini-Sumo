@@ -317,6 +317,68 @@ void trajeto_com_inimigo(int pwm)
   }
 }
 
+void procuranado_aleatoriamente ()
+{
+  const int velo_max = 255;
+  int linhaD = 0;
+  int linhaE = 0;
+  int iniE = 0;
+  int iniD = 0;
+  int sleep;
+
+  while (digitalRead(microST))
+  {
+    estado_linha(&linhaD,&linhaE);
+    estado_inimigos(&iniD, &iniE);
+
+    /* Verifica os sensores de linha */
+
+    if (linhaD==1 || linhaE==1)
+    {
+      // Anda para tras e gera um num aleatorio
+      movimentacao(-255);
+      delay(100);
+      sleep = random(175,225);
+
+      // Da ré sentido horário (sensor ativo na direita)
+      if (linhaD==1 && linhaE==0)
+      {
+        re_eixo_roda(-255);
+        delay(sleep);
+      }
+
+      // Da ré sentido anti-horário (sensor ativo na esquerda ou em ambos lados)
+      else
+      {
+        re_eixo_roda(255);
+        delay(sleep);
+      }
+    }
+
+    /* Verifica o estado do inimigos */
+
+    else if (iniE==1 || iniD==1)
+    {
+      // Vai pra frente se ambos sensores estiverem ativos
+      if (iniE==1 && iniD==1)
+      {
+        movimentacao(255);
+      }
+
+      // Rotaciona horário (sensor da direita ativo)
+      if (iniD==1 && iniE==0)
+      {
+        girar_Horario_eixo_robo(255);
+      }
+
+      // Rotaciona anti-horário (sensor da esquerda ativo)
+      else if (iniD==0 && iniE==1)
+      {
+        girar_Horario_eixo_robo(-255);
+      }
+    }
+  }
+}
 
 void movimentacao(int pwm) // utiliza o pwm para escolher o sentido da movimenção
 {  
