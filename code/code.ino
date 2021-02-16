@@ -355,7 +355,7 @@ void e4_procuranado_aleatoriamente ()
       }
     }
 
-    /* Verifica o estado do inimigos */
+    /* Verifica os sensores de distancia */
 
     else if (iniE==1 || iniD==1)
     {
