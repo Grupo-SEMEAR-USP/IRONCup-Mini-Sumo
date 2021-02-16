@@ -111,10 +111,10 @@ void loop() {
       case 3: trajeto_simples(255);
               break;
       
-      case 4: trajeto_com_inimigo(125);
+      case 4: e1_tornado(125);
               break;
 
-      case 5: trajeto_com_inimigo(255);
+      case 5: e1_tornado(255);
               break;
 
       case 6: girar_Horario_eixo_robo(255);
@@ -133,6 +133,7 @@ void loop() {
   //Importante parar o robô
   MotorR(0);
   MotorL(0);
+  
 }
 
 
@@ -248,7 +249,7 @@ void trajeto_simples(int pwm) // < precisa receber &dir e &esq ? e se utilizar v
 
 
 //Função que movimenta o robô num trajeto com oponentes
-void trajeto_com_inimigo(int pwm) 
+void e1_tornado(int pwm) 
 {
   int linhaD = 0;
   int linhaE = 0;
@@ -260,7 +261,7 @@ void trajeto_com_inimigo(int pwm)
   {
     estado_linha(&linhaD,&linhaE);
     estado_inimigos(&iniD, &iniE);
-
+    
     //Verifica se o robô está na linha
     if( !linhaD && !linhaE)
     {
@@ -268,44 +269,42 @@ void trajeto_com_inimigo(int pwm)
       if(iniE && !iniD)
       {
         //Mover o robô para a esquerda
-        girar_Horario_eixo_robo(-pwm);
+        girar_Horario_eixo_robo(-255);
       }
       else if(!iniE && iniD)
       {
         //Mover o robô para a direita
-        girar_Horario_eixo_robo(pwm);
+        girar_Horario_eixo_robo(255);
       }
       else if(iniE && iniD)
       {
         //Os dois sensores detectam o oponente, ir para frente
-        movimentacao(pwm);
+        movimentacao(255);
       }
       else
       {
         //Não há sinal do sensor de linha e nem do oponente
-        //Ficar girando? Ou ir para frente?
-        girar_Horario_eixo_robo(pwm);
-      }
-      
-      
+        //Ficar girando até encontrar o oponente
+        girar_eixo_roda(pwm);
+      }      
     }
     else //Algum sensor de linha está ativado
     {
-      
       if(linhaD && linhaE)
       {
-        //Dar ré
-        movimentacao(-pwm);
-        delay(51000/pwm);  //Aumentado o delay (antes era 25500/pwm)
+        //Dar ré reta
+        movimentacao(pwm);
+        delay(25500/pwm);
+
+        //Ré girando
+        re_eixo_roda(pwm);
+        delay(25500/pwm); //Aumentado o delay (antes era 25500/pwm)
       }
       else if(linhaD && !linhaE)
       {
         //Dar ré no anti-horario
         re_eixo_roda(-pwm);
         delay(51000/pwm);   //Cuidado: o robô pode cair ao fazer essa curva de 0,4 s
-
-        //Segestão: Dar ré-reta pela metade do tempo
-        //          Ré-giratória pela outra metade do tempo
       }
       else
       {
@@ -316,7 +315,6 @@ void trajeto_com_inimigo(int pwm)
     }
   }
 }
-
 
 void movimentacao(int pwm) // utiliza o pwm para escolher o sentido da movimenção
 {  
