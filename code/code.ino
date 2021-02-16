@@ -92,8 +92,7 @@ void loop() {
 
   //Importante estar no loop da estratégia enquanto o microST estiver ativo
   while(digitalRead(microST))
-  {
-    
+  {    
     DIP = readDIP();
 
     //Inserir as estratégias de acordo com número do DIP
@@ -265,6 +264,7 @@ void e1_tornado(int pwm)
     //Verifica se o robô está na linha
     if( !linhaD && !linhaE)
     {
+      //Preocupação aqui é o inimigo
       //Leu na esquerda, mas não na direita
       if(iniE && !iniD)
       {
@@ -293,7 +293,7 @@ void e1_tornado(int pwm)
       if(linhaD && linhaE)
       {
         //Dar ré reta
-        movimentacao(pwm);
+        movimentacao(-pwm);
         delay(25500/pwm);
 
         //Ré girando
