@@ -316,6 +316,80 @@ void e1_tornado(int pwm)
   }
 }
 
+void e2paciencia(int pwm)
+{
+  int linhaD = 0;
+  int linhaE = 0;
+  int iniE = 0;
+  int iniD = 0;
+  int pwm_menor = 85;//busca pelo robô
+  int pwm_maior = 80;//encontrou o robô
+
+  //Importante estar no loop da estratégia enquanto o microST estiver ativo
+  while(digitalRead(microST))
+  {
+    estado_linha(&linhaD,&linhaE);
+    estado_inimigos(&iniD, &iniE);
+    //Verifica se o robô está na linha
+    if( !linhaD && !linhaE)
+    {
+      pwm -= pwm_menor;
+      movimentacao(pwm); //Começar na posição A vai ser melhor nesse caso, sempre fazendo as ações iniciais com uma velocidade menor 
+    //Leu na esquerda, mas não na direita
+      if(iniE && !iniD)
+      {
+        //Mover o robô para a esquerda 
+        pwm -= pwm_menor;
+        girar_Horario_eixo_robo(-pwm);
+      }
+      else if(!iniE && iniD)
+      {
+        //Mover o robô para a direita
+        pwm -= pwm_menor;
+        girar_Horario_eixo_robo(pwm);
+      }
+      else if(iniE && iniD)
+      {
+        //Os dois sensores detectam o oponente, ir para frente
+        pwm += pwm_maior;
+        movimentacao(pwm);
+      }
+      else
+      {
+        re_eixo_roda(pwm);
+        delay(51000/pwm);
+        girar_eixo_roda(pwm);
+        delay(51000/pwm);
+        movimentacao(pwm);
+      }
+    }
+    else //Algum sensor de linha está ativado
+    {
+      if(linhaD && linhaE)
+      {
+        //Dar ré
+        movimentacao(-pwm);
+        delay(51000/pwm);  //Aumentado o delay (antes era 25500/pwm)
+      }
+      else if(linhaD && !linhaE)
+      {
+        //Dar ré no anti-horario
+        re_eixo_roda(-pwm);
+        delay(51000/pwm);   //Cuidado: o robô pode cair ao fazer essa curva de 0,4 s
+
+        //Sugestão: Dar ré-reta pela metade do tempo
+        //          Ré-giratória pela outra metade do tempo
+      }
+      else
+      {
+        //Dar ré no horario
+        re_eixo_roda(pwm);
+        delay(51000/pwm);
+      }
+    }
+  }
+}
+
 void movimentacao(int pwm) // utiliza o pwm para escolher o sentido da movimenção
 {  
   //movimenta para frente ou fica parado
