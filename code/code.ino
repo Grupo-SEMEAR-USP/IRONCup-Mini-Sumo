@@ -322,8 +322,7 @@ void e2paciencia(int pwm)
   int linhaE = 0;
   int iniE = 0;
   int iniD = 0;
-  int pwm_menor = 85;//busca pelo robô
-  int pwm_maior = 80;//encontrou o robô
+  int pwm_alterado = 80;//busca pelo robô
 
   //Importante estar no loop da estratégia enquanto o microST estiver ativo
   while(digitalRead(microST))
@@ -333,29 +332,30 @@ void e2paciencia(int pwm)
     //Verifica se o robô está na linha
     if( !linhaD && !linhaE)
     {
-      pwm -= pwm_menor;
+      pwm -= pwm_alterado;
       movimentacao(pwm); //Começar na posição A vai ser melhor nesse caso, sempre fazendo as ações iniciais com uma velocidade menor 
     //Leu na esquerda, mas não na direita
       if(iniE && !iniD)
       {
         //Mover o robô para a esquerda 
-        pwm -= pwm_menor;
+        pwm += pwm_alterado;
         girar_Horario_eixo_robo(-pwm);
       }
       else if(!iniE && iniD)
       {
         //Mover o robô para a direita
-        pwm -= pwm_menor;
+        pwm += pwm_alterado;
         girar_Horario_eixo_robo(pwm);
       }
       else if(iniE && iniD)
       {
         //Os dois sensores detectam o oponente, ir para frente
-        pwm += pwm_maior;
+        pwm += pwm_alterado;
         movimentacao(pwm);
       }
       else
       {
+        pwm += pwm_alterado;
         re_eixo_roda(pwm);
         delay(51000/pwm);
         girar_eixo_roda(pwm);
