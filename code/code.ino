@@ -514,7 +514,9 @@ void e4_procuranado_aleatoriamente()
       {
         // Anda para tras e gera um num aleatorio
         movimentacao(-255);
-        delay(100);
+        delay(150);
+        re_eixo_roda(240);
+        delay(sleep);
       }
       // Da ré sentido horário (sensor ativo na direita)
       else if (linhaD==1 && linhaE==0)
