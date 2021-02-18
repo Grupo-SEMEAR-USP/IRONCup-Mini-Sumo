@@ -332,7 +332,7 @@ void e2paciencia(int pwm)
     //Verifica se o robô está na linha
     if( !linhaD && !linhaE)
     {
-      pwm -= pwm_alterado;
+      pwm -= pwm_alterado; 
       movimentacao(pwm); //Começar na posição A vai ser melhor nesse caso, sempre fazendo as ações iniciais com uma velocidade menor 
     //Leu na esquerda, mas não na direita
       if(iniE && !iniD)
@@ -566,6 +566,83 @@ void e4_procuranado_aleatoriamente ()
     }
   }
 }
+
+void e7_frontal(int pwm){
+ 
+  unsigned long previousMillisConfronto = 0;
+  int linhaD = 0;
+  int linhaE = 0;
+  int iniE = 0;
+  int iniD = 0;
+
+  //Importante estar no loop da estratégia enquanto o microST estiver ativo
+  while(digitalRead(microST))
+  {
+    estado_linha(&linhaD,&linhaE);
+    estado_inimigos(&iniD, &iniE);
+    
+    //Verifica se o robô está na linha
+    if( !linhaD && !linhaE)
+    {
+      //Preocupação aqui é o inimigo
+      //Leu na esquerda, mas não na direita
+      if(iniE && !iniD)
+      {
+        //Mover o robô para a esquerda
+        girar_Horario_eixo_robo(-255);
+      }
+      else if(!iniE && iniD)
+      {
+        //Mover o robô para a direita
+        girar_Horario_eixo_robo(255);
+      }
+      else if(iniE && iniD)
+      {//os dois sensores detectam o oponente
+        unsigned long currentMillisConfronto = millis();
+        if(currentMillisConfronto - previousMillisConfronto >= 2000){//Quando tiver vendo o inimigo por mais de 2 segundos, provavelmente vai dar empate
+          previousMillisConfronto = currentMillisConfronto;
+          re_eixo_roda(pwm);//dar uma ré
+          delay(25500/pwm);
+        }
+        else{
+          movimentacao(255);//Se for menos de 2s, ir pra cima com tudo
+          }
+      }
+      else
+      {
+        //Não há sinal do sensor de linha e nem do oponente
+        movimentacao(pwm);
+        
+      }      
+    }
+    else //Algum sensor de linha está ativado
+    {
+      if(linhaD && linhaE)
+      {
+        //Dar ré reta
+        movimentacao(-pwm);
+        delay(25500/pwm);
+
+        //Ré girando
+        re_eixo_roda(pwm);
+        delay(25500/pwm); //Aumentado o delay (antes era 25500/pwm)
+      }
+      else if(linhaD && !linhaE)
+      {
+        //Dar ré no anti-horario
+        re_eixo_roda(-pwm);
+        delay(51000/pwm);   //Cuidado: o robô pode cair ao fazer essa curva de 0,4 s
+      }
+      else
+      {
+        //Dar ré no horario
+        re_eixo_roda(pwm);
+        delay(51000/pwm);
+      }
+    }
+  }
+  
+  }
 
 void movimentacao(int pwm) // utiliza o pwm para escolher o sentido da movimenção
 {  
