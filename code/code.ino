@@ -98,33 +98,25 @@ void loop() {
     //Inserir as estratégias de acordo com número do DIP
     switch(DIP)
     {
-      case 0: teste(125);
+      case 0: e1_tornado(160); //B3 0000
               break;
   
-      case 1: teste(255);
+      case 1: e1_tornado(255); //B3 0001
               break;
 
-      case 2: trajeto_simples(30);
+      case 2: e2paciencia(125); //B3 0010
               break;
 
-      case 3: trajeto_simples(255);
+      case 3: e2paciencia(255); //B3 0010
               break;
       
-      case 4: e1_tornado(125);
+      case 4: e3_tempestade(125);
               break;
 
-      case 5: e1_tornado(255);
+      case 5: e3_tempestade(255); //A3 0101
               break;
 
-      case 6: girar_Horario_eixo_robo(255);
-              break;
-
-      case 7: MotorR(100); //Funcionou
-              MotorL(-100);
-              break;
-
-      case 8: MotorR(150); //Funcionou
-              MotorL(0);
+      case 6: e4_procuranado_aleatoriamente(); //A4 0110
               break;
     }
   }
@@ -497,7 +489,7 @@ void e3_tempestade(int pwm)
   
   }
 
-void e4_procuranado_aleatoriamente ()
+void e4_procuranado_aleatoriamente()
 {
   const int velo_max = 255;
   int linhaD = 0;
@@ -515,22 +507,28 @@ void e4_procuranado_aleatoriamente ()
 
     if (linhaD==1 || linhaE==1)
     {
-      // Anda para tras e gera um num aleatorio
-      movimentacao(-255);
-      delay(100);
+      
       sleep = random(175,225);
 
-      // Da ré sentido horário (sensor ativo na direita)
-      if (linhaD==1 && linhaE==0)
+      if(linhaD == 1 && linhaE == 1)
       {
-        re_eixo_roda(-240);
+        // Anda para tras e gera um num aleatorio
+        movimentacao(-255);
+        delay(150);
+        re_eixo_roda(240);
+        delay(sleep);
+      }
+      // Da ré sentido horário (sensor ativo na direita)
+      else if (linhaD==1 && linhaE==0)
+      {
+        re_eixo_roda(240);
         delay(sleep);
       }
 
       // Da ré sentido anti-horário (sensor ativo na esquerda ou em ambos lados)
       else
       {
-        re_eixo_roda(240);
+        re_eixo_roda(-240);
         delay(sleep);
       }
     }
