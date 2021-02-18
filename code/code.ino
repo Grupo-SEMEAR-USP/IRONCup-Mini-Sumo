@@ -566,8 +566,10 @@ void e4_procuranado_aleatoriamente ()
     }
   }
 }
-unsigned long previousMillisConfronto = 0;
+
 void e7_frontal(int pwm){
+ 
+  unsigned long previousMillisConfronto = 0;
   int linhaD = 0;
   int linhaE = 0;
   int iniE = 0;
