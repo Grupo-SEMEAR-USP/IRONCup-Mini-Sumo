@@ -104,13 +104,13 @@ void loop() {
       case 1: e1_tornado(255); //B3 0001
               break;
 
-      case 2: e2paciencia(125); //B3 0010
+      case 2: e2paciencia(160); //B3 0010
               break;
 
       case 3: e2paciencia(255); //B3 0010
               break;
       
-      case 4: e3_tempestade(125);
+      case 4: e3_tempestade(160);
               break;
 
       case 5: e3_tempestade(255); //A3 0101
@@ -118,8 +118,17 @@ void loop() {
 
       case 6: e4_procuranado_aleatoriamente(); //A4 0110
               break;
+			  
+      case 7: e6comunzito(160);
+              break;
+
+      case 8: e6comunzito(255); 
+              break;
       
-      case 7: e6comunzito(); //A4  0100
+      case 9: e7_frontal(160);
+              break;
+
+      case 10: e7_frontal(255);
               break;
     }
   }
