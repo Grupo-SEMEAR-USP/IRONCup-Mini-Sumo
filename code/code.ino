@@ -118,6 +118,9 @@ void loop() {
 
       case 6: e4_procuranado_aleatoriamente(); //A4 0110
               break;
+      
+      case 7: e6comunzito(); //A4  0100
+              break;
     }
   }
 
@@ -561,6 +564,72 @@ void e4_procuranado_aleatoriamente()
     else 
     {
         movimentacao(255);
+    }
+  }
+}
+
+void e6comunzito (int pwm){
+  int linhaD = 0;
+  int linhaE = 0;
+  int iniE = 0;
+  int iniD = 0;
+  int sonin=12250;
+
+  //Importante estar no loop da estratégia enquanto o microST estiver ativo
+  while(digitalRead(microST))
+  {
+    estado_linha(&linhaD,&linhaE);
+    estado_inimigos(&iniD, &iniE);
+    
+    //Verifica se o robô está na linha
+    if( !linhaD && !linhaE)
+    {
+      //Preocupação aqui é o inimigo
+      //Leu na esquerda, mas não na direita
+      if(iniE && !iniD)
+      {
+        //Mover o robô para a esquerda
+        girar_Horario_eixo_robo(-pwm);
+      }
+      //Leu na direita, mas não na esquerda
+      else if(!iniE && iniD)
+      {
+        //Mover o robô para a direita
+        girar_Horario_eixo_robo(pwm);
+      }
+      else
+      {
+        //Os dois sensores detectam o oponente ou nenhum dos dois detectam, ir para frente
+        movimentacao(255);
+      }      
+    }
+    else //Algum sensor de linha está ativado
+    {
+      //ativou os 2, não acredito muito que será usado nessa estratégia
+      if(linhaD && linhaE)
+      {
+        //Dar ré reta
+        movimentacao(-pwm);
+        delay(25500/pwm);
+
+        //Ré girando
+        re_eixo_roda(pwm);
+        delay(sonin/pwm); //Reduzido o delay (antes era 25500/pwm)
+      }
+      //ativou o da direita
+      else if(linhaD && !linhaE)
+      {
+        //Dar ré no anti-horario
+        re_eixo_roda(-pwm);
+        delay(sonin/pwm);   //Cuidado: era para ser por volta de 90 graus de giro, sei lá se ta certo pq usei bastante aproximação e fiz a conta com sono.
+      }
+      //ativado da esquerda, acredito que esse quase nunca vai ser usado nessa estratégia
+      else
+      {
+        //Dar ré no horario
+        re_eixo_roda(pwm);
+        delay(sonin/pwm);
+      }
     }
   }
 }
