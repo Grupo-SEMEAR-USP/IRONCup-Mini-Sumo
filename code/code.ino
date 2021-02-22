@@ -492,82 +492,6 @@ void e3_tempestade(int pwm)
   
   }
 
-void e4_procuranado_aleatoriamente()
-{
-  const int velo_max = 255;
-  int linhaD = 0;
-  int linhaE = 0;
-  int iniE = 0;
-  int iniD = 0;
-  int sleep;
-
-  while (digitalRead(microST))
-  {
-    estado_linha(&linhaD,&linhaE);
-    estado_inimigos(&iniD, &iniE);
-
-    /* Verifica os sensores de linha */
-
-    if (linhaD==1 || linhaE==1)
-    {
-      
-      sleep = random(175,225);
-
-      if(linhaD == 1 && linhaE == 1)
-      {
-        // Anda para tras e gera um num aleatorio
-        movimentacao(-255);
-        delay(150);
-        re_eixo_roda(240);
-        delay(sleep);
-      }
-      // Da ré sentido horário (sensor ativo na direita)
-      else if (linhaD==1 && linhaE==0)
-      {
-        re_eixo_roda(240);
-        delay(sleep);
-      }
-
-      // Da ré sentido anti-horário (sensor ativo na esquerda ou em ambos lados)
-      else
-      {
-        re_eixo_roda(-240);
-        delay(sleep);
-      }
-    }
-
-    /* Verifica os sensores de distancia */
-
-    else if (iniE==1 || iniD==1)
-    {
-      // Vai pra frente se ambos sensores estiverem ativos
-      if (iniE==1 && iniD==1)
-      {
-        movimentacao(255);
-      }
-
-      // Rotaciona horário (sensor da direita ativo)
-      if (iniD==1 && iniE==0)
-      {
-        girar_Horario_eixo_robo(240);
-      }
-
-      // Rotaciona anti-horário (sensor da esquerda ativo)
-      else if (iniD==0 && iniE==1)
-      {
-        girar_Horario_eixo_robo(-240);
-      }
-    }
-   
-    /* Caso nenhum sensor fique ativo */
-   
-    else 
-    {
-        movimentacao(255);
-    }
-  }
-}
-
 void e6comunzito (int pwm){
   int linhaD = 0;
   int linhaE = 0;
@@ -605,6 +529,9 @@ void e6comunzito (int pwm){
     }
     else //Algum sensor de linha está ativado
     {
+      /* Adição do sleep random */
+      // sleep = random(175,225);
+
       //ativou os 2, não acredito muito que será usado nessa estratégia
       if(linhaD && linhaE)
       {
@@ -620,14 +547,14 @@ void e6comunzito (int pwm){
       else if(linhaD && !linhaE)
       {
         //Dar ré no anti-horario
-        re_eixo_roda(-pwm);
+        re_eixo_roda(-pwm); //Verificar sinal
         delay(sonin/pwm);   //Cuidado: era para ser por volta de 90 graus de giro, sei lá se ta certo pq usei bastante aproximação e fiz a conta com sono.
       }
       //ativado da esquerda, acredito que esse quase nunca vai ser usado nessa estratégia
       else
       {
         //Dar ré no horario
-        re_eixo_roda(pwm);
+        re_eixo_roda(pwm);  //Verificar sinal
         delay(sonin/pwm);
       }
     }
