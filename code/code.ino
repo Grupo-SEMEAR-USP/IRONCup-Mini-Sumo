@@ -551,7 +551,7 @@ void e6comunzito (int pwm){
       else if(linhaD && !linhaE){
         //Dar ré no anti-horario
         re_eixo_roda(-pwm); //Verificar sinal
-        delay(sonin/pwm);   //Cuidado: era para ser por volta de 90 graus de giro, sei lá se ta certo pq usei bastante aproximação e fiz a conta com sono.
+        delay(sonin/pwm);  
       }
      
       //ativado da esquerda
