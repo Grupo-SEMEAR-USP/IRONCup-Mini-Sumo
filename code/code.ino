@@ -621,7 +621,7 @@ void e7_frontal(int pwm){
     {
       movimentacao(-255);
       delay(100);
-      else if(linhaD && !linhaE)
+      if(linhaD)
       {
         //Dar ré no anti-horario
         re_eixo_roda(-pwm);
