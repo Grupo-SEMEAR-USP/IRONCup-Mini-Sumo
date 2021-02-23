@@ -256,6 +256,8 @@ void e1_tornado(int pwm)
   int iniE = 0;
   int iniD = 0;
 
+  int sentido = 1;
+
   //Importante estar no loop da estratégia enquanto o microST estiver ativo
   while(digitalRead(microST))
   {
@@ -286,7 +288,7 @@ void e1_tornado(int pwm)
       {
         //Não há sinal do sensor de linha e nem do oponente
         //Ficar girando até encontrar o oponente
-        girar_eixo_roda(pwm);
+        girar_eixo_roda(pwm*sentido);
       }      
     }
     else //Algum sensor de linha está ativado
@@ -306,12 +308,18 @@ void e1_tornado(int pwm)
         //Dar ré no anti-horario
         re_eixo_roda(-pwm);
         delay(51000/pwm);   //Cuidado: o robô pode cair ao fazer essa curva de 0,4 s
+
+        //Alterar o giro frontal para o sentido anti horário
+        sentido = -1;
       }
       else
       {
         //Dar ré no horario
         re_eixo_roda(pwm);
         delay(51000/pwm);
+
+        //Alterar o giro frontal para o sentido horário
+        sentido = 1;
       }
     }
   }
