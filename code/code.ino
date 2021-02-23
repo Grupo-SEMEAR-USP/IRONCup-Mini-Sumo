@@ -549,21 +549,21 @@ void e6comunzito (int pwm){
 
         //Ré girando
         re_eixo_roda(pwm);
-        delay(sonin/pwm); //Reduzido o delay (antes era 25500/pwm)
+        delay(sonin); //Reduzido o delay (antes era 25500/pwm)
       }
      
       //ativou o da direita
       else if(linhaD && !linhaE){
         //Dar ré no anti-horario
         re_eixo_roda(-pwm); //Verificar sinal
-        delay(sonin/pwm);  
+        delay(sonin);  
       }
      
       //ativado da esquerda
       else{
         //Dar ré no horario
         re_eixo_roda(pwm);  //Verificar sinal
-        delay(sonin/pwm);
+        delay(sonin);
       }
     }
   }
