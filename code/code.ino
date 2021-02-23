@@ -116,7 +116,7 @@ void loop() {
       case 5: e3_tempestade(255); //A3 0101
               break;
 
-      case 6: e4_procuranado_aleatoriamente(); //A4 0110
+      case 6: e4_procuranado_aleatoriamente(); //A4 ou A2 0110
               break;
       
       case 7: e6comunzito(); //A4  0100
@@ -497,44 +497,47 @@ void e6comunzito (int pwm){
   int linhaE = 0;
   int iniE = 0;
   int iniD = 0;
-  int sonin=12250;
+  int sonin;
 
   //Importante estar no loop da estratégia enquanto o microST estiver ativo
-  while(digitalRead(microST))
-  {
+  while(digitalRead(microST)){
+
     estado_linha(&linhaD,&linhaE);
     estado_inimigos(&iniD, &iniE);
     
     //Verifica se o robô está na linha
-    if( !linhaD && !linhaE)
-    {
+    if( !linhaD && !linhaE){
       //Preocupação aqui é o inimigo
       //Leu na esquerda, mas não na direita
-      if(iniE && !iniD)
-      {
+      
+      if(iniE && !iniD){
         //Mover o robô para a esquerda
         girar_Horario_eixo_robo(-pwm);
       }
       //Leu na direita, mas não na esquerda
-      else if(!iniE && iniD)
-      {
+      
+      else if(!iniE && iniD){
         //Mover o robô para a direita
         girar_Horario_eixo_robo(pwm);
       }
-      else
-      {
-        //Os dois sensores detectam o oponente ou nenhum dos dois detectam, ir para frente
+ 
+      else if(iniE && iniD){
+        //Os dois sensores detectam o oponente, ir para frente
         movimentacao(255);
+      }
+      
+      else{
+        //Não há sinal do sensor de linha e nem do oponente
+        //Ficar girando até encontrar o oponente
+        movimentacao(pwm);
       }      
     }
-    else //Algum sensor de linha está ativado
-    {
-      /* Adição do sleep random */
-      // sleep = random(175,225);
-
-      //ativou os 2, não acredito muito que será usado nessa estratégia
-      if(linhaD && linhaE)
-      {
+    
+    else /*Algum sensor de linha está ativado*/{
+      sonin = random(175,225);
+      
+     //ativou os 2 
+      if(linhaD && linhaE){
         //Dar ré reta
         movimentacao(-pwm);
         delay(25500/pwm);
@@ -543,16 +546,16 @@ void e6comunzito (int pwm){
         re_eixo_roda(pwm);
         delay(sonin/pwm); //Reduzido o delay (antes era 25500/pwm)
       }
+     
       //ativou o da direita
-      else if(linhaD && !linhaE)
-      {
+      else if(linhaD && !linhaE){
         //Dar ré no anti-horario
         re_eixo_roda(-pwm); //Verificar sinal
         delay(sonin/pwm);   //Cuidado: era para ser por volta de 90 graus de giro, sei lá se ta certo pq usei bastante aproximação e fiz a conta com sono.
       }
-      //ativado da esquerda, acredito que esse quase nunca vai ser usado nessa estratégia
-      else
-      {
+     
+      //ativado da esquerda
+      else{
         //Dar ré no horario
         re_eixo_roda(pwm);  //Verificar sinal
         delay(sonin/pwm);
