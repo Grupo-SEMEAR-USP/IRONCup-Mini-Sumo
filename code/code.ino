@@ -40,8 +40,6 @@ void MotorR(int pwm); // motor direito
 int readDIP(); //        ler chave DIP
 /*******FUNCTIONS - END*******/
 
-boolean start = false;
-
 void setup() {
  
   /****************PINOUT CONFIG****************/
