@@ -98,31 +98,45 @@ void loop() {
     //Inserir as estratégias de acordo com número do DIP
     switch(DIP)
     {
+      //Ficou preso no canto - Precisa de ajuste no que aconetece quando toca a
+      // Talvez mudar o sentido de giro no canto
       case 0: e1_tornado(160);	//B3, A3/2/4 - 0000
               break;
-  
+
+      //Uma curva maior - mais instável
       case 1: e1_tornado(255);	//B3, A3/2/4 - 0001
               break;
 
+      //Deu um reverso e saiu do dojô - Ele fica girando, não reage muito bem a linha
+      // Quando foi para frente ele não "viu" a borda pois estava no delay
       case 2: e2paciencia(160);	//A3 - 0010
               break;
 
       case 3: e2paciencia(255);	//A3 - 0011
               break;
-      
+
+      //Parece que fez uma curva para o lado errado - da uma olhda melhor
+      // Fez muita curva e acabou saindo do dojô, quando detecta a linha
       case 4: e3_tempestade(160);	// A3, B3 - 0100
               break;
 
       case 5: e3_tempestade(255);	//A3, B3 - 0101
               break;
-			  
+
+      //Girou bacana. No final parece que a inércia fez com que o robô não freasse
+      //Parece que já está rápido o suficiente - Seguiu a caixinha bem legal
+      // Testar com pwm menor ainda para verificar se o problema é mesmo a inércia
       case 6: e6comunzito(160);	//A4 - 0110
               break;
 
+      //Colocar, em todos os casos que detecta a linha, uma ré para trás por 50ms, ajuda a tirar o tranco
+
       case 7: e6comunzito(255);	//A4 - 0111
               break;
-      
-      case 8: e7_frontal(160);	//B3 - 1000
+
+      //Parece que saiu do dojo - não viu a linha ao avançar
+      // O código que detecta a linha precisa de ajustes
+      case 8: e7_frontal(110);	//B3 - 1000
               break;
 
       case 9: e7_frontal(255); //B3 - 1001
@@ -135,7 +149,6 @@ void loop() {
   MotorL(0);
   
 }
-
 
 // Testes das funções base
 void teste (int pwm)
