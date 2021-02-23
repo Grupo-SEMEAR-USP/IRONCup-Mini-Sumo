@@ -534,7 +534,6 @@ void e6comunzito (int pwm){
       
       else{
         //Não há sinal do sensor de linha e nem do oponente
-        //Ficar girando até encontrar o oponente
         movimentacao(pwm);
       }      
     }
