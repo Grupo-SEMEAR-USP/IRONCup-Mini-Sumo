@@ -116,16 +116,16 @@ void loop() {
       case 5: e3_tempestade(255);	//A3, B3 - 0101
               break;
 			  
-      case 7: e6comunzito(160);	//A4 - 0111
+      case 6: e6comunzito(160);	//A4 - 0110
               break;
 
-      case 8: e6comunzito(255);	//A4 - 1000
+      case 7: e6comunzito(255);	//A4 - 0111
               break;
       
-      case 9: e7_frontal(160);	//B3 - 1001
+      case 8: e7_frontal(160);	//B3 - 1000
               break;
 
-      case 10: e7_frontal(255); //B3 - 1010
+      case 9: e7_frontal(255); //B3 - 1001
               break;
     }
   }
