@@ -712,9 +712,9 @@ void girar_eixo_roda(int pwm) // pwm > 0 direita | pwm < 0 esquerda
     MotorR(0);
     MotorL(pwm);
   }
-  else if(pwm<0) // se pwm for negativo, vai para direita com motorL fixo
+  else if(pwm < 0) // se pwm for negativo, vai para esquerda com motorL fixo
   {
-    MotorR(pwm);
+    MotorR(-pwm);
     MotorL(0);   
   }
 }
