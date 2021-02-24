@@ -128,7 +128,6 @@ void loop() {
       // Testar com pwm menor ainda para verificar se o problema é mesmo a inércia
       case 6: e6comunzito(160);	//A4 - 0110
               break;
-
       //Colocar, em todos os casos que detecta a linha, uma ré para trás por 50ms, ajuda a tirar o tranco
 
       case 7: e6comunzito(255);	//A4 - 0111
