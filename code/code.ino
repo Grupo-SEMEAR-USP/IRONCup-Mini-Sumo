@@ -551,11 +551,11 @@ void e6comunzito (int pwm){
       if(linhaD && linhaE){
         //Dar ré reta
         movimentacao(-255);
-        delay(sonin);
+        delay(80);
 
         //Ré girando
         re_eixo_roda(pwm);
-        delay(sonin); //Reduzido o delay (antes era 25500/pwm)
+        delay(sonin); 
       }
      
       //ativou o da direita
