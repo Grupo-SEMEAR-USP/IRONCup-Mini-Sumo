@@ -482,22 +482,22 @@ void e3_tempestade(int pwm)
       {
         //Dar ré
         movimentacao(-pwm);
-        delay(51000/pwm);  //Aumentado o delay (antes era 25500/pwm)
+        delay(25500/pwm);  
       }
       else if(linhaD && !linhaE)
       {
         //Dar ré no anti-horario
         re_eixo_roda(-pwm);
-        delay(51000/pwm);   //Cuidado: o robô pode cair ao fazer essa curva de 0,4 s
+        delay(25500/pwm);   
 
-        //Segestão: Dar ré-reta pela metade do tempo
-        //          Ré-giratória pela outra metade do tempo
+        
+        
       }
       else
       {
         //Dar ré no horario
         re_eixo_roda(pwm);
-        delay(51000/pwm);
+        delay(25500/pwm);
       }
     }
   }
