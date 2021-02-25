@@ -180,17 +180,11 @@ void e1_tornado(int pwm)
     }
     else //Algum sensor de linha está ativado
     {
-      if(linhaD && linhaE)
-      {
-        //Dar ré reta
-        movimentacao(-pwm);
-        delay(25500/pwm);
-
-        //Ré girando
-        re_eixo_roda(pwm);
-        delay(25500/pwm); //Aumentado o delay (antes era 25500/pwm)
-      }
-      else if(linhaD && !linhaE)
+      //Ré reta
+      movimentacao(-255);
+      delay(200);
+      
+      if(linhaD)
       {
         //Dar ré no anti-horario
         re_eixo_roda(-pwm);
@@ -628,8 +622,6 @@ void re_eixo_roda(int pwm) // pwm > 0 sentido horario | pwm < 0 sentido anti-hor
     MotorR(0);   
   }
 }
-
->>>>>>> 40ab6c629035e435565b40ff5e91cbc2b4e8afe2
  
 /**LEFT MOTOR CONTROL / CONTROLE DO MOTOR ESQUERDO / CONTROL DEL MOTOR IZQUIERDO**/
 // pwm = 0 -> stopped / parado / parado
