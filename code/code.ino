@@ -428,7 +428,7 @@ void e6comunzito (int pwm){
     }
     
     else /*Algum sensor de linha está ativado*/{
-      sonin = random(175,225);
+      sonin = random(190,225);
       
      //ativou os 2 
       if(linhaD && linhaE){
