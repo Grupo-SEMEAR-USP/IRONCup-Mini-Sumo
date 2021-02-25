@@ -1,3 +1,4 @@
+
 /*******PINOUT DEFINES*********/
 // it is not recommended to make changes
 // nao e recomendado que se faca alteracoes
@@ -326,7 +327,7 @@ void e3_tempestade(int pwm)
         //Dar dois piques frontais e girar
         if(estado == 0){
           movimentacao(pwm);//dá o primeiro pique
-          delay(51000/pwm);
+          delay(25500/pwm);
         }
         else if(estado == 1){
           movimentacao(0);//para
@@ -334,7 +335,7 @@ void e3_tempestade(int pwm)
         }
          else if(estado == 2){
            movimentacao(pwm);//dá o segundo pique
-           delay(51000/pwm);
+           delay(25500/pwm);
         }
          else if(estado == 3){
           movimentacao(0);//para
@@ -344,12 +345,12 @@ void e3_tempestade(int pwm)
            if(contador % 2 == 0){//alternar entre giro horário e anti horário
              contador = 0;
              girar_Horario_eixo_robo(pwm);//rotacionar um pouco no sentido horário pra tentar achar o inimigo
-             delay(51000/pwm);
+             delay(100);
            }
           else{
             contador = 1;
             girar_Horario_eixo_robo(-pwm);//rotacionar um pouco no sentido anti-horário pra tentar achar o inimigo
-            delay(51000/pwm);
+            delay(100);
           }
           contador++;
           }
@@ -703,3 +704,6 @@ int readDIP(){
 
   return n;
 }
+
+ 
+
