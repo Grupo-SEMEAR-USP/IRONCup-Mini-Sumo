@@ -95,31 +95,31 @@ void loop() {
     //Inserir as estratégias de acordo com número do DIP
     switch(DIP)
     {
-      case 0: e1_tornado(160);	//B3, A3/2/4 - 0000
+      case 0: e1_tornado(160);  //B3, A3/2/4 - 0000
               break;
   
-      case 1: e1_tornado(255);	//B3, A3/2/4 - 0001
+      case 1: e1_tornado(255);  //B3, A3/2/4 - 0001
               break;
 
-      case 2: e2paciencia(160);	//A3 - 0010
+      case 2: e2paciencia(160); //A3 - 0010
               break;
 
-      case 3: e2paciencia(255);	//A3 - 0011
+      case 3: e2paciencia(255); //A3 - 0011
               break;
       
-      case 4: e3_tempestade(160);	// A3, B3 - 0100
+      case 4: e3_tempestade(160); // A3, B3 - 0100
               break;
 
-      case 5: e3_tempestade(255);	//A3, B3 - 0101
+      case 5: e3_tempestade(255); //A3, B3 - 0101
               break;
-			  
-      case 6: e6comunzito(160);	//A4 - 0110
+        
+      case 6: e6comunzito(160); //A4 - 0110
               break;
 
-      case 7: e6comunzito(255);	//A4 - 0111
+      case 7: e6comunzito(255); //A4 - 0111
               break;
       
-      case 8: e7_frontal(160);	//B3 - 1000
+      case 8: e7_frontal(160);  //B3 - 1000
               break;
 
       case 9: e7_frontal(255); //B3 - 1001
@@ -494,15 +494,16 @@ void e7_frontal(int pwm){
       }
       else if(iniE && iniD)
       {//os dois sensores detectam o oponente
-        unsigned long currentMillisConfronto = millis();
-        if(currentMillisConfronto - previousMillisConfronto >= 2000){//Quando tiver vendo o inimigo por mais de 2 segundos, provavelmente vai dar empate
-          previousMillisConfronto = currentMillisConfronto;
-          re_eixo_roda(pwm);//dar uma ré
-          delay(25500/pwm);
+        
+        
+        previousMillisConfronto = millis();
+        while(millis() - previousMillisConfronto < 2000){//Quando tiver vendo o inimigo por mais de 2 segundos, provavelmente vai dar empate
+          movimentacao(255);
+          
         }
-        else{
-          movimentacao(255);//Se for menos de 2s, ir pra cima com tudo
-          }
+          re_eixo_roda(pwm);//dar uma ré
+          delay(100);//Se for menos de 2s, ir pra cima com tudo
+
       }
       else
       {
