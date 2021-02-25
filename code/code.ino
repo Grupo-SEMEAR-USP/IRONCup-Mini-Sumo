@@ -1,3 +1,4 @@
+
 /*******PINOUT DEFINES*********/
 // it is not recommended to make changes
 // nao e recomendado que se faca alteracoes
@@ -96,31 +97,31 @@ void loop() {
     //Inserir as estratégias de acordo com número do DIP
     switch(DIP)
     {
-      case 0: e1_tornado(160);	//B3, A3/2/4 - 0000
+      case 0: e1_tornado(160);  //B3, A3/2/4 - 0000
               break;
   
-      case 1: e1_tornado(255);	//B3, A3/2/4 - 0001
+      case 1: e1_tornado(255);  //B3, A3/2/4 - 0001
               break;
 
-      case 2: e2paciencia(160);	//A3 - 0010
+      case 2: e2paciencia(160); //A3 - 0010
               break;
 
-      case 3: e2paciencia(255);	//A3 - 0011
+      case 3: e2paciencia(255); //A3 - 0011
               break;
       
-      case 4: e3_tempestade(160);	// A3, B3 - 0100
+      case 4: e3_tempestade(160); // A3, B3 - 0100
               break;
 
-      case 5: e3_tempestade(255);	//A3, B3 - 0101
+      case 5: e3_tempestade(255); //A3, B3 - 0101
               break;
-			  
-      case 6: e6comunzito(160);	//A4 - 0110
+        
+      case 6: e6comunzito(160); //A4 - 0110
               break;
 
-      case 7: e6comunzito(255);	//A4 - 0111
+      case 7: e6comunzito(255); //A4 - 0111
               break;
       
-      case 8: e7_frontal(160);	//B3 - 1000
+      case 8: e7_frontal(160);  //B3 - 1000
               break;
 
       case 9: e7_frontal(255); //B3 - 1001
@@ -438,7 +439,7 @@ void e3_tempestade(int pwm)
         //Dar dois piques frontais e girar
         if(estado == 0){
           movimentacao(pwm);//dá o primeiro pique
-          delay(51000/pwm);
+          delay(25500/pwm);
         }
         else if(estado == 1){
           movimentacao(0);//para
@@ -446,7 +447,7 @@ void e3_tempestade(int pwm)
         }
          else if(estado == 2){
            movimentacao(pwm);//dá o segundo pique
-           delay(51000/pwm);
+           delay(25500/pwm);
         }
          else if(estado == 3){
           movimentacao(0);//para
@@ -456,12 +457,12 @@ void e3_tempestade(int pwm)
            if(contador % 2 == 0){//alternar entre giro horário e anti horário
              contador = 0;
              girar_Horario_eixo_robo(pwm);//rotacionar um pouco no sentido horário pra tentar achar o inimigo
-             delay(51000/pwm);
+             delay(100);
            }
           else{
             contador = 1;
             girar_Horario_eixo_robo(-pwm);//rotacionar um pouco no sentido anti-horário pra tentar achar o inimigo
-            delay(51000/pwm);
+            delay(100);
           }
           contador++;
           }
@@ -814,3 +815,6 @@ int readDIP(){
 
   return n;
 }
+
+ 
+
