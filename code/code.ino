@@ -470,7 +470,6 @@ void e7_frontal(int pwm){
   int linhaE = 0;
   int iniE = 0;
   int iniD = 0;
-  int verificador = 0;
 
   //Importante estar no loop da estratégia enquanto o microST estiver ativo
   while(digitalRead(microST))
