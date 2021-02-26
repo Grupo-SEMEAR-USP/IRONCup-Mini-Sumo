@@ -430,10 +430,10 @@ void e6comunzito (int pwm){
     else /*Algum sensor de linha está ativado*/{
       sonin = random(190,225);
       
-      /*Colocar esse trecho de código para em qlq situacao o robô dar um trnaco */
-      //movimentacao(-255);
-      //delay(80);
-
+      //Tranco para o carrinho n sair da arena
+      movimentacao(-255);
+      delay(10);
+      
      //ativou os 2 
       if(linhaD && linhaE){
         //Dar ré reta
