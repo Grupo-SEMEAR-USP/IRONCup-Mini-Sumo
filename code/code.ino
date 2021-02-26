@@ -458,6 +458,82 @@ void e6comunzito (int pwm){
   }
 }
 
+void e6comunzito_v2 (int pwm){
+  int linhaD = 0;
+  int linhaE = 0;
+  int iniE = 0;
+  int iniD = 0;
+  int sonin;
+
+  //Importante estar no loop da estratégia enquanto o microST estiver ativo
+  while(digitalRead(microST)){
+
+    estado_linha(&linhaD,&linhaE);
+    estado_inimigos(&iniD, &iniE);
+    
+    //Verifica se o robô está na linha
+    if( !linhaD && !linhaE){
+      //Preocupação aqui é o inimigo
+      //Leu na esquerda, mas não na direita
+      
+      if(iniE && !iniD){
+        //Mover o robô para a esquerda
+        girar_eixo_roda(-255);
+      }
+      //Leu na direita, mas não na esquerda
+      
+      else if(!iniE && iniD){
+        //Mover o robô para a direita
+        girar_eixo_roda(255);
+      }
+ 
+      else if(iniE && iniD){
+        //Os dois sensores detectam o oponente, ir para frente
+        movimentacao(255);
+      }
+      
+      else{
+        //Não há sinal do sensor de linha e nem do oponente
+        movimentacao(pwm);
+      }      
+    }
+    
+    else /*Algum sensor de linha está ativado*/{
+      sonin = random(190,225);
+      
+      //Tranco para o carrinho n sair da arena
+      movimentacao(-255);
+      delay(10);
+      
+     //ativou os 2 
+      if(linhaD && linhaE){
+        //Dar ré reta
+        movimentacao(-255);
+        delay(80);
+
+        //Ré girando
+        re_eixo_roda(pwm);
+        delay(sonin); 
+      }
+     
+      //ativou o da direita
+      else if(linhaD && !linhaE){
+        //Dar ré no anti-horario
+        re_eixo_roda(-pwm); //Verificar sinal
+        delay(sonin);  
+      }
+     
+      //ativado da esquerda
+      else{
+        //Dar ré no horario
+        re_eixo_roda(pwm);  //Verificar sinal
+        delay(sonin);
+      }
+    }
+  }
+}
+
+
 void e7_frontal(int pwm){
  
   unsigned long previousMillisConfronto = 0;
