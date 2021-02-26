@@ -126,7 +126,7 @@ void loop() {
       case 9: e7_frontal(255); //B3 - 1001
               break;
 			  
-	  case 10: e6comunzito_v2(160); //B3 - 1001
+	  case 10: e6comunzito_v2(160); //A4 - 1010
               break;
     }
   }
