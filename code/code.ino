@@ -428,7 +428,11 @@ void e6comunzito (int pwm){
     }
     
     else /*Algum sensor de linha está ativado*/{
-      sonin = random(175,225);
+      sonin = random(190,225);
+      
+      //Tranco para o carrinho n sair da arena
+      movimentacao(-255);
+      delay(10);
       
      //ativou os 2 
       if(linhaD && linhaE){
