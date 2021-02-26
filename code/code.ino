@@ -618,8 +618,6 @@ void re_eixo_roda(int pwm) // pwm > 0 sentido horario | pwm < 0 sentido anti-hor
     MotorR(0);   
   }
 }
-
->>>>>>> 40ab6c629035e435565b40ff5e91cbc2b4e8afe2
  
 /**LEFT MOTOR CONTROL / CONTROLE DO MOTOR ESQUERDO / CONTROL DEL MOTOR IZQUIERDO**/
 // pwm = 0 -> stopped / parado / parado
@@ -694,3 +692,5 @@ int readDIP(){
 
   return n;
 }
+
+
