@@ -180,17 +180,11 @@ void e1_tornado(int pwm)
     }
     else //Algum sensor de linha está ativado
     {
-      if(linhaD && linhaE)
-      {
-        //Dar ré reta
-        movimentacao(-pwm);
-        delay(25500/pwm);
-
-        //Ré girando
-        re_eixo_roda(pwm);
-        delay(25500/pwm); //Aumentado o delay (antes era 25500/pwm)
-      }
-      else if(linhaD && !linhaE)
+      //Ré reta
+      movimentacao(-255);
+      delay(200);
+      
+      if(linhaD)
       {
         //Dar ré no anti-horario
         re_eixo_roda(-pwm);
