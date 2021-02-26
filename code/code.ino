@@ -1,3 +1,4 @@
+
 /*******PINOUT DEFINES*********/
 // it is not recommended to make changes
 // nao e recomendado que se faca alteracoes
@@ -39,7 +40,6 @@ void MotorL(int pwm); // left motor / motor esquerdo / motor izquierdo
 void MotorR(int pwm); // right motor / motor direito / motor derecho
 int readDIP(); // read DIP switch / ler chave DIP / leer el interruptor DIP
 /*******FUNCTIONS - END*******/
- 
 void setup() {
  
   /****************PINOUT CONFIG****************/
@@ -82,86 +82,58 @@ void setup() {
   MotorR(0); // right motor stopped / motor direito parado / motor derecho parado 
   /*************INITIAL CONDITIONS - END*************/
 }
- 
-<<<<<<< HEAD
-  unsigned long previousMillisConfronto = 0;
-  int linhaD = 0;
-  int linhaE = 0;
-  int iniE = 0;
-  int iniD = 0;
+
+//Mudar a velocidade durante a investida
+void loop() {
+
+  int DIP;
 
   //Importante estar no loop da estratégia enquanto o microST estiver ativo
   while(digitalRead(microST))
-  {
-    estado_linha(&linhaD,&linhaE);
-    estado_inimigos(&iniD, &iniE);
-    
-    //Verifica se o robô está na linha
-    if( !linhaD && !linhaE)
-    {
-      //Preocupação aqui é o inimigo
-      //Leu na esquerda, mas não na direita
-      if(iniE && !iniD)
-      {
-        //Mover o robô para a esquerda
-        girar_Horario_eixo_robo(-255);
-      }
-      else if(!iniE && iniD)
-      {
-        //Mover o robô para a direita
-        girar_Horario_eixo_robo(255);
-      }
-      else if(iniE && iniD)
-      {//os dois sensores detectam o oponente
-        
-        
-        previousMillisConfronto = millis();
-        while(millis() - previousMillisConfronto < 2000){//Quando tiver vendo o inimigo por mais de 2 segundos, provavelmente vai dar empate
-          movimentacao(255);
-          
-        }
-          re_eixo_roda(pwm);//dar uma ré
-          delay(100);//Se for menos de 2s, ir pra cima com tudo
+  {    
+    DIP = readDIP();
 
-      }
-      else
-      {
-        //Não há sinal do sensor de linha e nem do oponente
-        movimentacao(pwm);
-        
-      }      
-    }
-    else //Algum sensor de linha está ativado
+    //Inserir as estratégias de acordo com número do DIP
+    switch(DIP)
     {
-      movimentacao(-255);
-      delay(100);
-      if(linhaD)
-      {
-        //Dar ré no anti-horario
-        re_eixo_roda(-pwm);
-        delay(51000/pwm);   //Cuidado: o robô pode cair ao fazer essa curva de 0,4 s
-      }
-      else
-      {
-        //Dar ré no horario
-        re_eixo_roda(pwm);
-        delay(51000/pwm);
-      }
+      case 0: e1_tornado(160);  //B3, A3/2/4 - 0000
+              break;
+  
+      case 1: e1_tornado(255);  //B3, A3/2/4 - 0001
+              break;
+
+      case 2: e2paciencia(160); //A3 - 0010
+              break;
+
+      case 3: e2paciencia(255); //A3 - 0011
+              break;
+      
+      case 4: e3_tempestade(160); // A3, B3 - 0100
+              break;
+
+      case 5: e3_tempestade(255); //A3, B3 - 0101
+              break;
+        
+      case 6: e6comunzito(160); //A4 - 0110
+              break;
+
+      case 7: e6comunzito(255); //A4 - 0111
+              break;
+      
+      case 8: e7_frontal(160);  //B3 - 1000
+              break;
+
+      case 9: e7_frontal(255); //B3 - 1001
+              break;
     }
   }
-<<<<<<< HEAD
-=======
 
-=======
-void loop() {
->>>>>>> parent of adc968a (Update code.ino)
-=======
->>>>>>> parent of 67e6a33 (Update code.ino)
+  //Importante parar o robô
+  MotorR(0);
+  MotorL(0);
   
 }
-<<<<<<< HEAD
 
-<<<<<<< HEAD
 
 //Função que movimenta o robô num trajeto com oponentes
 void e1_tornado(int pwm) 
@@ -208,11 +180,17 @@ void e1_tornado(int pwm)
     }
     else //Algum sensor de linha está ativado
     {
-      //Ré reta
-      movimentacao(-255);
-      delay(200);
-      
-      if(linhaD)
+      if(linhaD && linhaE)
+      {
+        //Dar ré reta
+        movimentacao(-pwm);
+        delay(25500/pwm);
+
+        //Ré girando
+        re_eixo_roda(pwm);
+        delay(25500/pwm); //Aumentado o delay (antes era 25500/pwm)
+      }
+      else if(linhaD && !linhaE)
       {
         //Dar ré no anti-horario
         re_eixo_roda(-pwm);
@@ -240,73 +218,69 @@ void e2paciencia(int pwm)
   int linhaE = 0;
   int iniE = 0;
   int iniD = 0;
-  int pwm_alterado = 80;//busca pelo robô
+  int alt;
 
   //Importante estar no loop da estratégia enquanto o microST estiver ativo
-  while(digitalRead(microST))
-  {
+  while(digitalRead(microST)){
+
     estado_linha(&linhaD,&linhaE);
     estado_inimigos(&iniD, &iniE);
+    
     //Verifica se o robô está na linha
-    if( !linhaD && !linhaE)
-    {
-      pwm -= pwm_alterado; 
-      movimentacao(pwm); //Começar na posição A vai ser melhor nesse caso, sempre fazendo as ações iniciais com uma velocidade menor 
-    //Leu na esquerda, mas não na direita
-      if(iniE && !iniD)
-      {
-        //Mover o robô para a esquerda 
-        pwm += pwm_alterado;
+    if( !linhaD && !linhaE){//Procurando por inimigo
+      if(iniE && !iniD){//Vendo inimigo no lado esquerdo, mas não lado direito
+        //Mover o robô para a esquerda
         girar_Horario_eixo_robo(-pwm);
       }
-      else if(!iniE && iniD)
-      {
+      //Leu na direita, mas não na esquerda
+      else if(!iniE && iniD){//Vendo inimigo no lado direito, mas não no lado esquerdo
         //Mover o robô para a direita
-        pwm += pwm_alterado;
         girar_Horario_eixo_robo(pwm);
       }
-      else if(iniE && iniD)
-      {
+ 
+      else if(iniE && iniD){
         //Os dois sensores detectam o oponente, ir para frente
-        pwm += pwm_alterado;
-        movimentacao(pwm);
+        movimentacao(255);
       }
-      else
-      {
-        pwm += pwm_alterado;
-        re_eixo_roda(pwm);
-        delay(51000/pwm);
-        girar_eixo_roda(pwm);
-        delay(51000/pwm);
-        movimentacao(pwm);
-      }
+      
+      else{
+        //Não há sinal do sensor de linha e nem do oponente
+        //Procurando de forma lenta o oponente e aumentando-a gradualmente
+        for(alt = 75; alt <= 175; alt += 2.5){
+        movimentacao(alt);
+        delay(100);
+        }
+      }      
     }
-    else //Algum sensor de linha está ativado
-    {
-      if(linhaD && linhaE)
-      {
-        //Dar ré
+    
+    else{//Algum sensor de linha está ativado
+      if(linhaD && linhaE){//ativou os 2 
+        //Dar ré reta
         movimentacao(-pwm);
-        delay(51000/pwm);  //Aumentado o delay (antes era 25500/pwm)
-      }
-      else if(linhaD && !linhaE)
-      {
-        //Dar ré no anti-horario
-        re_eixo_roda(-pwm);
-        delay(51000/pwm);   //Cuidado: o robô pode cair ao fazer essa curva de 0,4 s
+        delay(25500/pwm);
 
-        //Sugestão: Dar ré-reta pela metade do tempo
-        //          Ré-giratória pela outra metade do tempo
+        //Ré girando
+        girar_Horario_eixo_robo(pwm);
+        delay(175);
       }
-      else
-      {
+     
+      //ativou o da direita
+      else if(linhaD && !linhaE){
+        //Dar ré no anti-horario
+        re_eixo_roda(-pwm); //Verificar sinal
+        delay(175);
+      }
+     
+      //ativado da esquerda
+      else{
         //Dar ré no horario
-        re_eixo_roda(pwm);
-        delay(51000/pwm);
+        re_eixo_roda(pwm);  //Verificar sinal
+        delay(175);
       }
     }
   }
 }
+
 
 void e3_tempestade(int pwm)
 {
@@ -650,11 +624,8 @@ void re_eixo_roda(int pwm) // pwm > 0 sentido horario | pwm < 0 sentido anti-hor
     MotorR(0);   
   }
 }
-=======
->>>>>>> parent of adc968a (Update code.ino)
-=======
+
 >>>>>>> 40ab6c629035e435565b40ff5e91cbc2b4e8afe2
->>>>>>> parent of 67e6a33 (Update code.ino)
  
 /**LEFT MOTOR CONTROL / CONTROLE DO MOTOR ESQUERDO / CONTROL DEL MOTOR IZQUIERDO**/
 // pwm = 0 -> stopped / parado / parado
@@ -683,7 +654,6 @@ void MotorL(int pwm){
     digitalWrite(leftMotor2, HIGH);
   }
 }
- 
  
 /**RIGHT MOTOR CONTROL / CONTROLE DO MOTOR DIREITO / CONTROL DEL MOTOR DERECHO**/
 // pwm = 0 -> stopped / parado / parado
@@ -727,4 +697,6 @@ int readDIP(){
     n|= (1<<2);
   if(digitalRead(DIP1)==HIGH)
     n|= (1<<3);
+
+  return n;
 }
