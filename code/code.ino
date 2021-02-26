@@ -149,15 +149,19 @@ void setup() {
       }
     }
   }
+<<<<<<< HEAD
 =======
 
 =======
 void loop() {
 >>>>>>> parent of adc968a (Update code.ino)
+=======
+>>>>>>> parent of 67e6a33 (Update code.ino)
   
 }
 <<<<<<< HEAD
 
+<<<<<<< HEAD
 
 //Função que movimenta o robô num trajeto com oponentes
 void e1_tornado(int pwm) 
@@ -648,6 +652,9 @@ void re_eixo_roda(int pwm) // pwm > 0 sentido horario | pwm < 0 sentido anti-hor
 }
 =======
 >>>>>>> parent of adc968a (Update code.ino)
+=======
+>>>>>>> 40ab6c629035e435565b40ff5e91cbc2b4e8afe2
+>>>>>>> parent of 67e6a33 (Update code.ino)
  
 /**LEFT MOTOR CONTROL / CONTROLE DO MOTOR ESQUERDO / CONTROL DEL MOTOR IZQUIERDO**/
 // pwm = 0 -> stopped / parado / parado
@@ -721,6 +728,3 @@ int readDIP(){
   if(digitalRead(DIP1)==HIGH)
     n|= (1<<3);
 }
-
- 
-
