@@ -297,8 +297,8 @@ void curva_arco(int pwm, float z)
   }
   else
   {
-    MotorR(pwm);
-    MotorL((int) pwm*z);  
+    MotorR(-pwm);
+    MotorL((int) pwm*(-z));  
   }
 }
 
