@@ -128,6 +128,9 @@ void loop() {
 			  
 	    case 10: e6comunzito_v2(160); //A4 - 1010
               break;
+
+      case 11: e1_tornado_v2(160); //A1/A5 - 1011
+               break;
     }
   }
 
@@ -218,6 +221,7 @@ void e1_tornado_v2(int pwm)
   int iniD = 0;
 
   int sentido = 1;
+  float z = 0.75;
 
   //Importante estar no loop da estratégia enquanto o microST estiver ativo
   while(digitalRead(microST))
@@ -249,14 +253,14 @@ void e1_tornado_v2(int pwm)
       {
         //Não há sinal do sensor de linha e nem do oponente
         //Ficar girando até encontrar o oponente
-        girar_eixo_roda(pwm*sentido);
+        curva_arco(pwm*sentido, z);
       }      
     }
     else //Algum sensor de linha está ativado
     {
       //Ré reta
       movimentacao(-255);
-      delay(50);
+      delay(40);
       
       if(linhaD)
       {
@@ -277,6 +281,22 @@ void e1_tornado_v2(int pwm)
         sentido = 1;
       }
     }
+  }
+}
+
+//pwm > 0 Horário | pwm < 0 Anti-Horario 
+// 0 < z < 1 - indica quão menos a outra roda irá andar
+void curva_arco(int pwm, float z)
+{
+  if(pwm > 0)
+  {
+    MotorR((int) pwm*z);
+    MotorL(pwm);
+  }
+  else
+  {
+    MotorR(pwm);
+    MotorL((int) pwm*z);  
   }
 }
 
@@ -709,16 +729,10 @@ void estado_linha(int *direita, int *esquerda)
       *(esquerda) = 0;
 }
 
-
 //Gira no sentido horario 
 void girar_Horario_eixo_robo(int pwm) // pwm > 0 Horário | pwm < 0 Anti Horario
 {  
-  if(pwm == 0)
-  {
-    // algo se colocar 0
-
-  }
-  else if(pwm > 0) // se pwm for positivo, roda horario
+ if(pwm > 0) // se pwm for positivo, roda horario
   {
     MotorR(-pwm);
     MotorL(pwm);
@@ -734,11 +748,7 @@ void girar_Horario_eixo_robo(int pwm) // pwm > 0 Horário | pwm < 0 Anti Horario
 //Gira para esquerda ou direira com eixo da roda
 void girar_eixo_roda(int pwm) // pwm > 0 direita | pwm < 0 esquerda
 {  
-  if(pwm == 0)
-  {
-    // algo se colocar 0
-  }
-  else if(pwm > 0) // se pwm for positivo, vai para direita com motorR fixo
+  if(pwm > 0) // se pwm for positivo, vai para direita com motorR fixo
   {
     MotorR(0);
     MotorL(pwm);
