@@ -126,10 +126,13 @@ void loop() {
       case 9: e7_frontal(255); //B3 - 1001
               break;
 			  
-	    case 10: e6comunzito_v2(160); //A4 - 1010
+      case 10: e6comunzito_v2(160); //A4 - 1010
               break;
 
-      case 11: e1_tornado_v2(160); //A1/A5 - 1011
+      case 11: e1_tornado_v2(160,1); //A1 - 1011
+               break;
+
+      case 12: e1_tornado_v2(160,-1); //A5 - 1100
                break;
     }
   }
@@ -213,15 +216,14 @@ void e1_tornado(int pwm)
 }
 
 //Função que movimenta o robô num trajeto com oponentes
-void e1_tornado_v2(int pwm) 
+void e1_tornado_v2(int pwm, int sentido) 
 {
   int linhaD = 0;
   int linhaE = 0;
   int iniE = 0;
   int iniD = 0;
 
-  int sentido = 1;
-  float z = 0.75;
+  float z = 0.75; // raio de uns 40 cm para a curva
 
   //Importante estar no loop da estratégia enquanto o microST estiver ativo
   while(digitalRead(microST))
